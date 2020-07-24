@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atghy.foodmall.member.dao.AgentDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.atghy.foodmall.member.entity.AgentEntity" id="agentMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="mobile" column="mobile"/>
+        <result property="email" column="email"/>
+        <result property="gender" column="gender"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="agentLevel" column="agent_level"/>
+        <result property="agentImgUrl" column="agent_img_url"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+
+</mapper>

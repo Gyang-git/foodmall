@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atghy.foodmall.food.dao.SetmealDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.atghy.foodmall.food.entity.SetmealEntity" id="setmealMap">
+        <result property="id" column="id"/>
+        <result property="restaurantName" column="restaurant_name"/>
+        <result property="name" column="name"/>
+        <result property="quantity" column="quantity"/>
+        <result property="quantityLock" column="quantity_lock"/>
+        <result property="imgUrl" column="img_url"/>
+        <result property="useStatus" column="use_status"/>
+        <result property="status" column="status"/>
+        <result property="price" column="price"/>
+        <result property="title" column="title"/>
+        <result property="subtitle" column="subtitle"/>
+        <result property="desc" column="desc"/>
+    </resultMap>
+
+
+</mapper>

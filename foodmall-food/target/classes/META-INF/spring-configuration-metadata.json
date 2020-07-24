@@ -1,0 +1,27 @@
+{
+  "groups": [
+    {
+      "name": "foodmall.thread",
+      "type": "com.atghy.foodmall.food.config.ThreadPoolConfigProperties",
+      "sourceType": "com.atghy.foodmall.food.config.ThreadPoolConfigProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "foodmall.thread.core-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.atghy.foodmall.food.config.ThreadPoolConfigProperties"
+    },
+    {
+      "name": "foodmall.thread.keep-alive-time",
+      "type": "java.lang.Integer",
+      "sourceType": "com.atghy.foodmall.food.config.ThreadPoolConfigProperties"
+    },
+    {
+      "name": "foodmall.thread.max-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.atghy.foodmall.food.config.ThreadPoolConfigProperties"
+    }
+  ],
+  "hints": []
+}

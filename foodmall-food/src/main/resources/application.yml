@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    username: root
+    password: 9780919
+    url: jdbc:mysql://localhost:3306/foodmall_ffs?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  application:
+    name: foodmall-food
+  jackson:
+    date-format: yyyy-MM-dd HH:m m:ss
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+server:
+  port: 14000
+
+  #  1-配置全局的逻辑删除规则
+  #  2-配置逻辑删除的组件Bean---（MybatisPlus3.0以上无需配置）V
+  #  3-给Bean加上逻辑删除注解@TableLogic
+  global-config:
+    db-config:    ##配置逻辑删除
+      id-type: auto
+      logic-delete-value: 1   #逻辑删除1为删除
+      logic-not-delete-value: 0   #逻辑删除0为不删除
+

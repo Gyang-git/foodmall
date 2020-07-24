@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atghy.foodmall.takeout.dao.EvaluateInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.atghy.foodmall.takeout.entity.EvaluateInfoEntity" id="evaluateInfoMap">
+        <result property="id" column="id"/>
+        <result property="outId" column="out_id"/>
+        <result property="orderSn" column="order_sn"/>
+        <result property="natureName" column="nature_name"/>
+        <result property="evaluateScore" column="evaluate_score"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+
+</mapper>

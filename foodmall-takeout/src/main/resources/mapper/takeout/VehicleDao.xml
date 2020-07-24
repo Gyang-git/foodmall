@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atghy.foodmall.takeout.dao.VehicleDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.atghy.foodmall.takeout.entity.VehicleEntity" id="vehicleMap">
+        <result property="id" column="id"/>
+        <result property="vehicleName" column="vehicle_name"/>
+        <result property="sort" column="sort"/>
+        <result property="value" column="value"/>
+        <result property="buyTime" column="buy_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="overhaulTime" column="overhaul_time"/>
+        <result property="useStatus" column="use_status"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+
+</mapper>

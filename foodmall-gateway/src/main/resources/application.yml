@@ -1,0 +1,51 @@
+#域名映射效果
+#1-请求接口 foodmall.com
+#2-请求页面 foodmall.com
+#nginx直接代理给网关,网关进行判断
+#  1-如果是/api/****,网关转交给对应的服务器
+#  2-如果是满足域名,转交给对应的服务
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: third_party_route
+          uri: lb://foodmall-third-party
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/thirdparty/(?<segment>.*),/$\{segment}
+
+        - id: food_route
+          uri: lb://foodmall-food
+          predicates:
+            - Path=/api/food/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: member_route
+          uri: lb://foodmall-member
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: takeout_route
+          uri: lb://foodmall-takeout
+          predicates:
+            - Path=/api/takeout/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: admin_route
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+
+#        - id: foodmall_ware_route
+#          uri: lb://foodmall-ware
+#          predicates:
+#            - Host=localhost:19000/
+
