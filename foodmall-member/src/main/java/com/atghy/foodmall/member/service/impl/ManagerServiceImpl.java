@@ -26,4 +26,10 @@ public class ManagerServiceImpl extends ServiceImpl<ManagerDao, ManagerEntity> i
         return new PageUtils(page);
     }
 
+    @Override
+    public ManagerEntity getEntityById(Long id) {
+        ManagerEntity managerEntity = this.baseMapper.selectOne(new QueryWrapper<ManagerEntity>().eq("restaurant_id", id));
+        return managerEntity;
+    }
+
 }

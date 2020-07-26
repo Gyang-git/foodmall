@@ -16,5 +16,7 @@ import java.util.Map;
 public interface ManagerService extends IService<ManagerEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    ManagerEntity getEntityById(Long id);
 }
 

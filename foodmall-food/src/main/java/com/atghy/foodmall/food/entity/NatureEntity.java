@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import lombok.Data;
 
@@ -32,43 +33,43 @@ public class NatureEntity implements Serializable {
 	/**
 	 * 
 	 */
-	private String salty;
+	private Long salty;
 	/**
 	 * 酸 1-5->表示程度
 	 */
-	private String sour;
+	private Long sour;
 	/**
 	 * 苦 1-5->表示程度
 	 */
-	private String bitter;
+	private Long bitter;
 	/**
 	 * 甜 1-5->表示程度
 	 */
-	private String sweet;
+	private Long sweet;
 	/**
 	 * 辣 1-5->表示程度
 	 */
-	private String spicy;
+	private Long spicy;
 	/**
 	 * 油炸 1-5->表示程度
 	 */
-	private String fry;
+	private Long fry;
 	/**
 	 * 软硬 1-5->表示程度
 	 */
-	private String taste;
+	private Long taste;
 	/**
 	 * 冷热 1-5->表示程度
 	 */
-	private String cool;
+	private Long cool;
 	/**
 	 * 鲜品 0->非鲜品；1->鲜品
 	 */
-	private String fresh;
+	private Long fresh;
 	/**
 	 * 当前评分
 	 */
-	private String score;
+	private Long score;
 	/**
 	 * 菜品分类 外联菜品主分类
 	 */

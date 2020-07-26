@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  application:
+    name: foodmall-search
+  jackson:
+    date-format: yyyy-MM-dd HH:m m:ss
+  redis:
+    host: 192.168.252.128 #redis
+  session:
+    store-type: redis #session存储类型
+server:
+  port: 17000
+#spring:
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 127.0.0.1:8848
+#  application:
+#    name: foodmall-search
+#server:
+#  port: 17000

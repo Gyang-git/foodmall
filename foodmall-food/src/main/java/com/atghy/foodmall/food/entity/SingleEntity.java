@@ -41,11 +41,11 @@ public class SingleEntity implements Serializable {
 	/**
 	 * 库存剩余
 	 */
-	private String quantity;
+	private Long quantity;
 	/**
 	 * 锁定库存量
 	 */
-	private String quantityLock;
+	private Long quantityLock;
 	/**
 	 * 图片地址
 	 */

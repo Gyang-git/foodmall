@@ -19,5 +19,7 @@ public interface SetmealService extends IService<SetmealEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     void addSetmeal(SetmealVo setmealVo);
+
+    Boolean upSetmeal(Long id);
 }
 

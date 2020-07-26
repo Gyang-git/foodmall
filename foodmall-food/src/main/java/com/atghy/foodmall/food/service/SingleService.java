@@ -22,5 +22,7 @@ public interface SingleService extends IService<SingleEntity> {
     void addSingle(SingleVo singleVo) throws ExecutionException, InterruptedException;
 
     Long getSingleIdByName(String name);
+
+    Boolean upSingle(Long id);
 }
 

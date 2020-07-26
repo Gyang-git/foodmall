@@ -1,12 +1,17 @@
 package com.atghy.foodmall.food.service.impl;
 
+import com.alibaba.fastjson.TypeReference;
+import com.atghy.foodmall.common.exception.BizCodeEnume;
+import com.atghy.foodmall.common.to.es.SkuEsModel;
+import com.atghy.foodmall.common.utils.R;
 import com.atghy.foodmall.food.entity.*;
 import com.atghy.foodmall.food.feign.MemberFeignService;
+import com.atghy.foodmall.food.feign.SearchFeignService;
 import com.atghy.foodmall.food.service.*;
+import com.atghy.foodmall.food.vo.ManagerVo;
 import com.atghy.foodmall.food.vo.SingleVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -43,6 +48,9 @@ public class SingleServiceImpl extends ServiceImpl<SingleDao, SingleEntity> impl
 
     @Autowired
     MemberFeignService memberFeignService;
+
+    @Autowired
+    SearchFeignService searchFeignService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -100,6 +108,57 @@ public class SingleServiceImpl extends ServiceImpl<SingleDao, SingleEntity> impl
     public Long getSingleIdByName(String name) {
         SingleEntity entity = this.baseMapper.selectOne(new QueryWrapper<SingleEntity>().eq("name", name));
         return entity.getId();
+    }
+
+    @Override
+    public Boolean upSingle(Long id) {
+        //1-查出并封装当前singleId的所有信息
+        SkuEsModel esModel = new SkuEsModel();
+        SingleEntity singleEntity = this.baseMapper.selectById(id);
+        BeanUtils.copyProperties(singleEntity,esModel);
+        esModel.setIsSingle((long) 1);
+        esModel.setSingleId(id);
+        //1--查询单品特性
+        NatureEntity natureEntity = natureService.getNatureByName(singleEntity.getName());
+        SkuEsModel.Nature nature = new SkuEsModel.Nature();
+        BeanUtils.copyProperties(natureEntity,nature);
+        //2-检查所属饭店星级(若星级低于一星 则该单品不可上架）
+        RestaurantEntity restaurantEntity = restaurantService.getOne(new QueryWrapper<RestaurantEntity>().eq("name", singleEntity.getRestaurantName()));
+        if (restaurantEntity.getLevel() >= 1){
+            //3-检查饭店营业执照及卫生执照
+            R info = memberFeignService.getEntityById(restaurantEntity.getId());
+            ManagerVo managerVo = info.getData("manager", new TypeReference<ManagerVo>() {
+            });
+            System.out.println(managerVo);
+            if (managerVo.getBusineseImgUrl() == null || managerVo.getSanitationImgUrl() == null){
+                log.error(BizCodeEnume.MANAGER_PERMIT_LACK_EXCEPTION.getMsg());
+                return false;
+            }else{
+                //4-查询商品库存状态
+                if (singleEntity.getQuantity() > singleEntity.getQuantityLock()){
+                    esModel.setHasStock(true);
+                    //5-将数据发送给es进行保存
+                    R r = searchFeignService.foodStatusUp(esModel);
+                    if (r.getCode() == 0){
+                        //远程调用成功
+                        //6-修改当前spu的状态
+                        singleEntity.setUseStatus(1);
+                        int i = baseMapper.updateById(singleEntity);
+                        System.out.println(i);
+                    }else {
+                        log.error("远程调用出错");
+                        return false;
+                    }
+                }else {
+                    log.error(BizCodeEnume.NO_STOCK_EXCEPTION.getMsg());
+                    return false;
+                }
+            }
+        }else {
+            log.error(BizCodeEnume.RESTAURANT_LEVEL_TOOLOW_EXCEPTION.getMsg());
+            return false;
+        }
+        return true;
     }
 
 //    //线程池非异步编排

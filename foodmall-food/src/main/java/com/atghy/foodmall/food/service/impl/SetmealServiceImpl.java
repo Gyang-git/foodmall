@@ -1,9 +1,17 @@
 package com.atghy.foodmall.food.service.impl;
 
+import com.alibaba.fastjson.TypeReference;
+import com.atghy.foodmall.common.exception.BizCodeEnume;
+import com.atghy.foodmall.common.to.es.SkuEsModel;
 import com.atghy.foodmall.common.utils.R;
+import com.atghy.foodmall.food.entity.RestaurantEntity;
 import com.atghy.foodmall.food.entity.SingleSetmealEntity;
+import com.atghy.foodmall.food.feign.MemberFeignService;
+import com.atghy.foodmall.food.feign.SearchFeignService;
+import com.atghy.foodmall.food.service.RestaurantService;
 import com.atghy.foodmall.food.service.SingleService;
 import com.atghy.foodmall.food.service.SingleSetmealService;
+import com.atghy.foodmall.food.vo.ManagerVo;
 import com.atghy.foodmall.food.vo.SetmealVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +36,15 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealDao, SetmealEntity> i
 
     @Autowired
     SingleService singleService;
+
+    @Autowired
+    RestaurantService restaurantService;
+
+    @Autowired
+    MemberFeignService memberFeignService;
+
+    @Autowired
+    SearchFeignService searchFeignService;
 
     @Autowired
     SingleSetmealService singleSetmealService;
@@ -69,5 +86,52 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealDao, SetmealEntity> i
                 singleSetmealService.save(singleSetmealEntity);
             }
         }
+    }
+
+    @Override
+    public Boolean upSetmeal(Long id) {
+        //1-查出并封装当前SetmealId的所有信息
+        SkuEsModel esModel = new SkuEsModel();
+        SetmealEntity setmealEntity = this.baseMapper.selectById(id);
+        BeanUtils.copyProperties(setmealEntity,esModel);
+        esModel.setIsSingle((long) 0);
+        esModel.setSetmealId(id);
+        //2-检查所属饭店星级(若星级低于一星 则该单品不可上架）
+        RestaurantEntity restaurantEntity = restaurantService.getOne(new QueryWrapper<RestaurantEntity>().eq("name", setmealEntity.getRestaurantName()));
+        if (restaurantEntity.getLevel() >=1 ){
+            //3-检查饭店营业执照及卫生执照
+//            R info = memberFeignService.
+            R r = memberFeignService.getEntityById(restaurantEntity.getId());
+            ManagerVo managerVo = r.getData("manager", new TypeReference<ManagerVo>() {
+            });
+            if (managerVo.getBusineseImgUrl() == null || managerVo.getSanitationImgUrl() == null){
+                log.error(BizCodeEnume.MANAGER_PERMIT_LACK_EXCEPTION.getMsg());
+                return false;
+            }else {
+                //4-查询套餐库存状态
+                if (setmealEntity.getQuantity() > setmealEntity.getQuantityLock()){
+                    esModel.setHasStock(true);
+                    //5-将数据发送给es进行保存
+//                    searchFeignService.foodStatusUp(esModel);
+                    if (r.getCode() == 0){
+                        //远程调用成功
+                        //6-修改当前spu的状态
+                        setmealEntity.setUseStatus(1);
+                        int i = baseMapper.updateById(setmealEntity);
+                        System.out.println(i);
+                    }else {
+                        log.error("远程调用出错");
+                        return false;
+                    }
+                }else {
+                    log.error(BizCodeEnume.NO_STOCK_EXCEPTION.getMsg());
+                    return false;
+                }
+            }
+        }else {
+            log.error(BizCodeEnume.RESTAURANT_LEVEL_TOOLOW_EXCEPTION.getMsg());
+            return false;
+        }
+        return true;
     }
 }

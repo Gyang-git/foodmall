@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 
+import com.atghy.foodmall.common.exception.BizCodeEnume;
 import com.atghy.foodmall.food.vo.SetmealVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,17 @@ import com.atghy.foodmall.common.utils.R;
 public class SetmealController {
     @Autowired
     private SetmealService setmealService;
+
+    //根据套餐id上架
+    @RequestMapping("upSetmeal/{id}")
+    public R upSetmeal(@PathVariable("id") Long id){
+        Boolean isUp = setmealService.upSetmeal(id);
+        if(isUp){
+            return R.ok();
+        }else{
+            return R.error(BizCodeEnume.FOOD_UP_EXCEPTION.getCode(),BizCodeEnume.FOOD_UP_EXCEPTION.getMsg());
+        }
+    }
 
     /**
      * 新增套餐

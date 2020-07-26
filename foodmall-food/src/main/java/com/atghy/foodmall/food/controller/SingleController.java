@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 
+import com.atghy.foodmall.common.exception.BizCodeEnume;
 import com.atghy.foodmall.food.vo.SingleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,17 @@ public class SingleController {
     @Autowired
     private SingleService singleService;
 
+    //根据单品id上架
+    @RequestMapping("/upSingle/{id}")
+    public R upSingle(@PathVariable("id") Long id){
+        Boolean isUp = singleService.upSingle(id);
+        if(isUp){
+            return R.ok();
+        }else {
+            return R.error(BizCodeEnume.FOOD_UP_EXCEPTION.getCode(),BizCodeEnume.FOOD_UP_EXCEPTION.getMsg());
+        }
+    }
+
     //根据name查询id
     @GetMapping("/getSingleIdByName/{name}")
     public Long getSingleIdByName(@PathVariable("name") String name){
@@ -50,7 +62,6 @@ public class SingleController {
     //@RequiresPermissions("food:single:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = singleService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 
@@ -62,7 +73,6 @@ public class SingleController {
     //@RequiresPermissions("food:single:info")
     public R info(@PathVariable("id") Long id){
 		SingleEntity single = singleService.getById(id);
-
         return R.ok().put("single", single);
     }
 

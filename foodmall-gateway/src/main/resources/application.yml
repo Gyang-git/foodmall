@@ -9,6 +9,13 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: ware_route
+          uri: lb://foodmall-ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
         - id: third_party_route
           uri: lb://foodmall-third-party
           predicates:

@@ -22,4 +22,12 @@ public interface MemberFeignService {
     @RequestMapping("/member/manager/save")
     //@RequiresPermissions("member:manager:save")
     R save(@RequestBody ManagerVo manager);
+
+    @RequestMapping("/member/manager/info/{id}")
+    //@RequiresPermissions("member:manager:info")
+    R info(@PathVariable("id") Long id);
+
+
+    @GetMapping("/member/manager/getEntityById/{id}")
+    R getEntityById(@PathVariable("id") Long id);
 }

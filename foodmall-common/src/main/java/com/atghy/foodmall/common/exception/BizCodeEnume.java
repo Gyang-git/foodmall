@@ -15,10 +15,10 @@ package com.atghy.foodmall.common.exception;
  *  10：通用
  *      001：参数格式校验
  *      002：短信验证码频率太高
- *  11：商品
+ *  11：餐品
  *  12：订单
  *  13：购物车
- *  14：物流
+ *  14：外卖
  *  15: 用户
  *  21：库存
  */
@@ -27,9 +27,11 @@ public enum BizCodeEnume {
     VAILD_EXCEPTION(10001,"参数格式校验失败"),
     TOO_MANY_REQUEST(10002,"请求流量过大"),
     SMS_CODE_EXCEPTION(10001,"验证码获取频率太高 请稍后重试"),
-    PRODUCT_UP_EXCEPTION(11000,"商品上架异常"),
+    FOOD_UP_EXCEPTION(11000,"餐品上架异常"),
+    RESTAURANT_LEVEL_TOOLOW_EXCEPTION(11002,"店面等级过低 无法上架餐品"),
     USER_EXIST_EXCEPTION(15001,"用户已存在"),
     PHONE_EXIST_EXCEPTION(15002,"手机号已存在"),
+    MANAGER_PERMIT_LACK_EXCEPTION(15004,"店面负责人证件缺失"),
     NO_STOCK_EXCEPTION(21000,"商品库存不足"),
     LOGINACCT_PASSWORD_INNAILD_EXCEPTION(15003,"账号密码错误");
 

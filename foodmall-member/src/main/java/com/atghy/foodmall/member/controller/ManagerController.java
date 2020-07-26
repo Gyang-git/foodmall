@@ -1,5 +1,6 @@
 package com.atghy.foodmall.member.controller;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -27,6 +28,13 @@ public class ManagerController {
     @Autowired
     private ManagerService managerService;
 
+
+    @GetMapping("/getEntityById/{id}")
+    public R getEntityById(@PathVariable("id") Long id){
+        ManagerEntity managerEntity = managerService.getEntityById(id);
+        return R.ok().put("manager",managerEntity);
+    }
+
     /**
      * 列表
      */
@@ -46,8 +54,7 @@ public class ManagerController {
     //@RequiresPermissions("member:manager:info")
     public R info(@PathVariable("id") Long id){
 		ManagerEntity manager = managerService.getById(id);
-
-        return R.ok().put("manager", manager);
+        return R.ok().put("manager",manager);
     }
 
     /**

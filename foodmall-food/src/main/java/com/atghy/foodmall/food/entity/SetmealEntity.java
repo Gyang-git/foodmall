@@ -38,11 +38,11 @@ public class SetmealEntity implements Serializable {
 	/**
 	 * 库存剩余
 	 */
-	private String quantity;
+	private Long quantity;
 	/**
 	 * 锁定库存
 	 */
-	private String quantityLock;
+	private Long quantityLock;
 	/**
 	 * 图片地址
 	 */
