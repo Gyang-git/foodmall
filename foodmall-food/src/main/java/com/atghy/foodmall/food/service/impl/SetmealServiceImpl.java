@@ -112,8 +112,8 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealDao, SetmealEntity> i
                 if (setmealEntity.getQuantity() > setmealEntity.getQuantityLock()){
                     esModel.setHasStock(true);
                     //5-将数据发送给es进行保存
-//                    searchFeignService.foodStatusUp(esModel);
-                    if (r.getCode() == 0){
+                    R up = searchFeignService.foodStatusUp(esModel);
+                    if (up.getCode() == 0){
                         //远程调用成功
                         //6-修改当前spu的状态
                         setmealEntity.setUseStatus(1);

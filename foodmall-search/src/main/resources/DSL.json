@@ -1,0 +1,234 @@
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "title": "小人儿冰淇杯"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "nested": {
+            "path": "nature",
+            "query": {
+              "bool": {
+                "must": [
+                  {
+                    "term": {
+                      "nature.categoryName": {
+                        "value": "甜品"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "term": {
+            "hasStock": "true"
+          }
+        },
+        {
+          "term": {
+            "isSingle": "1"
+          }
+        },
+        {
+          "terms": {
+            "singleId": [
+              "0",
+              "1"
+            ]
+          }
+        },
+        {
+          "terms": {
+            "setmealId": [
+              "0",
+              "1"
+            ]
+          }
+        },
+        {
+          "range": {
+            "price": {
+              "gte": 0,
+              "lte": 6000
+            }
+          }
+        }
+      ]
+    }
+  },
+  "aggs": {
+    "restaurant_agg": {
+      "terms": {
+        "field": "restaurantName",
+        "size": 10
+      }
+    },
+
+
+    "catalog_agg": {
+      "nested": {
+        "path": "nature"
+      },
+      "aggs": {
+        "category_Name_agg": {
+          "terms": {
+            "field": "nature.categoryName",
+            "size": 10
+          }
+        }
+      }
+    },
+    "bitterr_agg": {
+      "nested": {
+        "path": "nature"
+      },
+      "aggs": {
+        "bitter_agg": {
+          "terms": {
+            "field": "nature.bitter",
+            "size": 10
+          }
+        }
+      }
+    },
+    "saltyy_agg": {
+      "nested": {
+        "path": "nature"
+      },
+      "aggs": {
+        "salty_agg": {
+          "terms": {
+            "field": "nature.salty",
+            "size": 10
+          }
+        }
+      }
+    },
+    "sourr_agg": {
+      "nested": {
+        "path": "nature"
+      },
+      "aggs": {
+        "sour_agg": {
+          "terms": {
+            "field": "nature.sour",
+            "size": 10
+          }
+        }
+      }
+    },
+    "sweett_agg": {
+      "nested": {
+        "path": "nature"
+      },
+      "aggs": {
+        "sweet_agg": {
+          "terms": {
+            "field": "nature.sweet",
+            "size": 10
+          }
+        }
+      }
+    },
+    "spicyy_agg": {
+      "nested": {
+        "path": "nature"
+      },
+      "aggs": {
+        "spicy_agg": {
+          "terms": {
+            "field": "nature.spicy",
+            "size": 10
+          }
+        }
+      }
+    },
+    "fryy_agg": {
+      "nested": {
+        "path": "nature"
+      },
+      "aggs": {
+        "fry_agg": {
+          "terms": {
+            "field": "nature.fry",
+            "size": 10
+          }
+        }
+      }
+    },
+    "tastee_agg": {
+      "nested": {
+        "path": "nature"
+      },
+      "aggs": {
+        "taste_agg": {
+          "terms": {
+            "field": "nature.taste",
+            "size": 10
+          }
+        }
+      }
+    },
+    "cooll_agg": {
+      "nested": {
+        "path": "nature"
+      },
+      "aggs": {
+        "cool_agg": {
+          "terms": {
+            "field": "nature.cool",
+            "size": 10
+          }
+        }
+      }
+    },
+    "freshh_agg": {
+      "nested": {
+        "path": "nature"
+      },
+      "aggs": {
+        "fresh_agg": {
+          "terms": {
+            "field": "nature.fresh",
+            "size": 10
+          }
+        }
+      }
+    },
+    "scoree_agg": {
+      "nested": {
+        "path": "nature"
+      },
+      "aggs": {
+        "score_agg": {
+          "terms": {
+            "field": "nature.score",
+            "size": 10
+          }
+        }
+      }
+    }
+  },
+  "sort": [
+    {
+      "price": {
+        "order": "desc"
+      }
+    }
+  ],
+  "from": 0,
+  "size": 20,
+  "highlight": {
+    "fields": {"title": {}},
+    "pre_tags": "<b style='color:red'>",
+    "post_tags": "</b>"
+  }
+}

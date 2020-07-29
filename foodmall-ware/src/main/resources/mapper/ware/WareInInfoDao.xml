@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atghy.foodmall.ware.dao.WareInInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.atghy.foodmall.ware.entity.WareInInfoEntity" id="wareInInfoMap">
+        <result property="rawId" column="raw_id"/>
+        <result property="inQuantity" column="in_quantity"/>
+        <result property="time" column="time"/>
+        <result property="rawName" column="raw_name"/>
+        <result property="quarantineStandard" column="quarantine_standard"/>
+        <result property="sort" column="sort"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+
+</mapper>

@@ -51,6 +51,21 @@ spring:
           filters:
             - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
 
+        - id: foodmall_host_route
+          uri: lb://foodmall-food
+          predicates:
+            - Host=foodmall.com,item.foodmall.com
+
+        - id: foodmall_search_route
+          uri: lb://foodmall-search
+          predicates:
+            - Host=search.foodmall.com
+
+        - id: foodmall_auth_route
+          uri: lb://foodmall-auth-server
+          predicates:
+            - Host=auth.foodmall.com
+
 #        - id: foodmall_ware_route
 #          uri: lb://foodmall-ware
 #          predicates:

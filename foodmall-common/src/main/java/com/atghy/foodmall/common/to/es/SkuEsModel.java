@@ -12,22 +12,22 @@ import java.math.BigDecimal;
  */
 @Data
 public class SkuEsModel {
-    private Long isSingle;//--
-    private String restaurantName; //v--
-    private String name; //v--
-    private Long quantity; //v--
-    private Boolean hasStock; //库存--
+    private Long isSingle;//
+    private String restaurantName;//
+    private String name;//
+    private Long quantity;
+    private Boolean hasStock;//
     private Long useStatus;
-    private String imgUrl; //v--
-    private BigDecimal price; //v--int-BigDecimal
-    private String title; //v--
-    private String subTitle; //v
-    private Long singleId;
-    private Long setmealId;//--
+    private String imgUrl;
+    private BigDecimal price;//
+    private String title;//
+    private String subTitle;
+    private Long singleId;//
+    private Long setmealId;//
     private Nature nature;
 
     @Data
-    public static class Nature{
+    public static class Nature{//
         private Long salty;
         private Long sour;
         private Long bitter;

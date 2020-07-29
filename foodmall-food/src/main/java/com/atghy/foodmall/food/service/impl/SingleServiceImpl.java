@@ -9,6 +9,7 @@ import com.atghy.foodmall.food.feign.MemberFeignService;
 import com.atghy.foodmall.food.feign.SearchFeignService;
 import com.atghy.foodmall.food.service.*;
 import com.atghy.foodmall.food.vo.ManagerVo;
+import com.atghy.foodmall.food.vo.SingleItemVo;
 import com.atghy.foodmall.food.vo.SingleVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,6 +123,7 @@ public class SingleServiceImpl extends ServiceImpl<SingleDao, SingleEntity> impl
         NatureEntity natureEntity = natureService.getNatureByName(singleEntity.getName());
         SkuEsModel.Nature nature = new SkuEsModel.Nature();
         BeanUtils.copyProperties(natureEntity,nature);
+        esModel.setNature(nature);
         //2-检查所属饭店星级(若星级低于一星 则该单品不可上架）
         RestaurantEntity restaurantEntity = restaurantService.getOne(new QueryWrapper<RestaurantEntity>().eq("name", singleEntity.getRestaurantName()));
         if (restaurantEntity.getLevel() >= 1){
@@ -146,7 +148,7 @@ public class SingleServiceImpl extends ServiceImpl<SingleDao, SingleEntity> impl
                         int i = baseMapper.updateById(singleEntity);
                         System.out.println(i);
                     }else {
-                        log.error("远程调用出错");
+                        log.error("远程调用food-search出错");
                         return false;
                     }
                 }else {
@@ -159,6 +161,23 @@ public class SingleServiceImpl extends ServiceImpl<SingleDao, SingleEntity> impl
             return false;
         }
         return true;
+    }
+
+    //非异步编排
+    @Override
+    public SingleItemVo singleItem(Long singleId) {
+        SingleItemVo singleItem = new SingleItemVo();
+        //1-封装基本信息
+        SingleEntity singleEntity = this.getById(singleId);
+        singleItem.setSingle(singleEntity);
+        //2-封装特性组合
+        NatureEntity natureEntity = natureService.getNatureByName(singleEntity.getName());
+        singleItem.setNatureEntity(natureEntity);
+        //3-封装原料信息
+        SingleRawEntity singleRawEntity = singleRawService.getOne(new QueryWrapper<SingleRawEntity>().eq("single_id", singleId));
+        singleItem.setSingleRawEntity(singleRawEntity);
+        //4-当前单品的秒杀信息
+        return singleItem;
     }
 
 //    //线程池非异步编排

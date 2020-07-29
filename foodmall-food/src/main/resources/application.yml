@@ -12,6 +12,8 @@ spring:
     name: foodmall-food
   jackson:
     date-format: yyyy-MM-dd HH:m m:ss
+  thymeleaf:
+    cache: false
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
@@ -19,7 +21,6 @@ mybatis-plus:
       id-type: auto
 server:
   port: 14000
-
   #  1-配置全局的逻辑删除规则
   #  2-配置逻辑删除的组件Bean---（MybatisPlus3.0以上无需配置）V
   #  3-给Bean加上逻辑删除注解@TableLogic

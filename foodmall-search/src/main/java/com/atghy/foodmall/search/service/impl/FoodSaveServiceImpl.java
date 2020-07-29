@@ -46,6 +46,7 @@ public class FoodSaveServiceImpl implements FoodSaveService {
             indexRequest.id(skuEsModel.getSetmealId().toString());
         }
         indexRequest.source(s,XContentType.JSON);
+        //========================================================================
         IndexResponse index = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
         System.out.println(index);
         return true;

@@ -1,5 +1,6 @@
 package com.atghy.foodmall.food.service;
 
+import com.atghy.foodmall.food.vo.SingleItemVo;
 import com.atghy.foodmall.food.vo.SingleVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.atghy.foodmall.common.utils.PageUtils;
@@ -24,5 +25,7 @@ public interface SingleService extends IService<SingleEntity> {
     Long getSingleIdByName(String name);
 
     Boolean upSingle(Long id);
+
+    SingleItemVo singleItem(Long singleId);
 }
 

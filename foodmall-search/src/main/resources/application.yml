@@ -11,8 +11,11 @@ spring:
     host: 192.168.252.128 #redis
   session:
     store-type: redis #session存储类型
+  thymeleaf:
+    cache: false
 server:
   port: 17000
+
 #spring:
 #  cloud:
 #    nacos:
