@@ -9,16 +9,18 @@ spring:
     cache: false
   application:
     name: foodmall-auth-server
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 #
 #redis地址
   redis:
     host: 192.168.252.128
     port: 6379
-##session缓存形式
-#  session:
-#    store-type: redis
-##session过期时长
-#  servlet:
-#    session:
-#      timeout: 1800s
+#session缓存形式
+  session:
+    store-type: redis
+#session过期时长
+  servlet:
+    session:
+      timeout: 1800s
 

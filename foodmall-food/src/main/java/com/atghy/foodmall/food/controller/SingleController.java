@@ -1,12 +1,14 @@
 package com.atghy.foodmall.food.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 
 import com.atghy.foodmall.common.exception.BizCodeEnume;
 import com.atghy.foodmall.food.vo.SingleVo;
+import com.atghy.foodmall.food.vo.SkuHasStockVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +32,17 @@ public class SingleController {
     @Autowired
     private SingleService singleService;
 
+    /**
+     * 查询singles库存状态
+     * @param singleIds
+     * @return
+     */
+    @PostMapping("/hasStock")
+    public R getSingleHasStock(@RequestBody List<Long> singleIds){
+        List<SkuHasStockVo> vos = singleService.getSingleHasStock(singleIds);
+        return R.ok().setData(vos);
+    }
+
     //根据单品id上架
     @RequestMapping("/upSingle/{id}")
     public R upSingle(@PathVariable("id") Long id){
@@ -39,6 +52,12 @@ public class SingleController {
         }else {
             return R.error(BizCodeEnume.FOOD_UP_EXCEPTION.getCode(),BizCodeEnume.FOOD_UP_EXCEPTION.getMsg());
         }
+    }
+
+    @GetMapping("getSingleByName/{name}")
+    public R getSingleByName(@PathVariable("name")String name){
+        SingleEntity entity = singleService.getSingleByName(name);
+        return R.ok().put("single",entity);
     }
 
     //根据name查询id

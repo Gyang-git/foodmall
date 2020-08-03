@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.Map;
 
 
+import com.atghy.foodmall.common.exception.BizCodeEnume;
+import com.atghy.foodmall.member.Exception.PhoneExistException;
+import com.atghy.foodmall.member.Exception.UsernameExistException;
+import com.atghy.foodmall.member.vo.CustomerLoginVo;
+import com.atghy.foodmall.member.vo.CustomerRegistVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +31,28 @@ import com.atghy.foodmall.common.utils.R;
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
+
+    @PostMapping("/login")
+    public R login(@RequestBody CustomerLoginVo vo){
+        CustomerEntity entity = customerService.login(vo);
+        if (entity != null){
+            return R.ok().setData(entity);
+        }else {
+            return R.error(BizCodeEnume.LOGINACCT_PASSWORD_INNAILD_EXCEPTION.getCode(),BizCodeEnume.LOGINACCT_PASSWORD_INNAILD_EXCEPTION.getMsg());
+        }
+    }
+
+    @PostMapping("/regist")
+    public R regist(@RequestBody CustomerRegistVo vo){
+        try {
+            customerService.regist(vo);
+        } catch (PhoneExistException e) {
+            return R.error(BizCodeEnume.PHONE_EXIST_EXCEPTION.getCode(),BizCodeEnume.PHONE_EXIST_EXCEPTION.getMsg());
+        } catch (UsernameExistException e){
+            return R.error(BizCodeEnume.USER_EXIST_EXCEPTION.getCode(),BizCodeEnume.USER_EXIST_EXCEPTION.getMsg());
+        }
+        return R.ok();
+    }
 
     /**
      * 列表

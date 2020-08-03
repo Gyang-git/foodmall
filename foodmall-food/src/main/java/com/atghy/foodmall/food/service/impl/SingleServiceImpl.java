@@ -1,6 +1,7 @@
 package com.atghy.foodmall.food.service.impl;
 
 import com.alibaba.fastjson.TypeReference;
+import com.atghy.foodmall.common.constant.DBNameConstant;
 import com.atghy.foodmall.common.exception.BizCodeEnume;
 import com.atghy.foodmall.common.to.es.SkuEsModel;
 import com.atghy.foodmall.common.utils.R;
@@ -11,13 +12,17 @@ import com.atghy.foodmall.food.service.*;
 import com.atghy.foodmall.food.vo.ManagerVo;
 import com.atghy.foodmall.food.vo.SingleItemVo;
 import com.atghy.foodmall.food.vo.SingleVo;
+import com.atghy.foodmall.food.vo.SkuHasStockVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -178,6 +183,25 @@ public class SingleServiceImpl extends ServiceImpl<SingleDao, SingleEntity> impl
         singleItem.setSingleRawEntity(singleRawEntity);
         //4-当前单品的秒杀信息
         return singleItem;
+    }
+
+    @Override
+    public SingleEntity getSingleByName(String name) {
+        QueryWrapper<SingleEntity> queryWrapper = new QueryWrapper<SingleEntity>().eq("name", name);
+        SingleEntity entity = this.baseMapper.selectOne(queryWrapper);
+        return entity;
+    }
+
+    @Override
+    public List<SkuHasStockVo> getSingleHasStock(List<Long> singleIds) {
+        List<SkuHasStockVo> collect = singleIds.stream().map(singleId -> {
+            SkuHasStockVo vo = new SkuHasStockVo();
+            Long count = baseMapper.getSkuStock(DBNameConstant.SINGLE_ENTITY_DB_NAME, singleId);
+            vo.setSkuId(singleId);
+            vo.setHasStock(count == null ? false : count > 0);
+            return vo;
+        }).collect(Collectors.toList());
+        return collect;
     }
 
 //    //线程池非异步编排

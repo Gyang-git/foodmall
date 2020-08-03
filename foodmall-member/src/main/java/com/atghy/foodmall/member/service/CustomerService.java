@@ -1,5 +1,7 @@
 package com.atghy.foodmall.member.service;
 
+import com.atghy.foodmall.member.vo.CustomerLoginVo;
+import com.atghy.foodmall.member.vo.CustomerRegistVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.atghy.foodmall.common.utils.PageUtils;
 import com.atghy.foodmall.member.entity.CustomerEntity;
@@ -16,5 +18,9 @@ import java.util.Map;
 public interface CustomerService extends IService<CustomerEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void regist(CustomerRegistVo vo);
+
+    CustomerEntity login(CustomerLoginVo vo);
 }
 

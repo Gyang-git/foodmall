@@ -3,6 +3,7 @@ package com.atghy.foodmall.food.dao;
 import com.atghy.foodmall.food.entity.SingleEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 收集所有单菜品表
@@ -13,5 +14,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SingleDao extends BaseMapper<SingleEntity> {
-	
+
+    Long getSkuStock(@Param("singleEntityDbName") String singleEntityDbName, @Param("singleId") Long singleId);
 }

@@ -1,13 +1,16 @@
 package com.atghy.foodmall.auth;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.UUID;
+
 @SpringBootTest
-class FoodmallAuthServerApplicationTests {
+public class FoodmallAuthServerApplicationTests {
 
     @Test
-    void contextLoads() {
-    }
+    public void contextLoads() {
 
+    }
 }

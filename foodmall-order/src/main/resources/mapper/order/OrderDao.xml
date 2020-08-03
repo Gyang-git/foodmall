@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atghy.foodmall.order.dao.OrderDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.atghy.foodmall.order.entity.OrderEntity" id="orderMap">
+        <result property="id" column="id"/>
+        <result property="orderSn" column="order_sn"/>
+        <result property="takeoutId" column="takeout_id"/>
+        <result property="healthId" column="health_id"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="takeName" column="take_name"/>
+        <result property="takePhone" column="take_phone"/>
+        <result property="totalAmout" column="total_amout"/>
+        <result property="payAmout" column="pay_amout"/>
+        <result property="discountAmout" column="discount_amout"/>
+        <result property="freightAmout" column="freight_amout"/>
+        <result property="payWay" column="pay_way"/>
+        <result property="addressFirst" column="address_first"/>
+        <result property="addressSecond" column="address_second"/>
+        <result property="addressThird" column="address_third"/>
+        <result property="score" column="score"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+    </resultMap>
+
+
+</mapper>

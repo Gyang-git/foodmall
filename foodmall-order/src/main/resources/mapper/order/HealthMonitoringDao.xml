@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atghy.foodmall.order.dao.HealthMonitoringDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.atghy.foodmall.order.entity.HealthMonitoringEntity" id="healthMonitoringMap">
+        <result property="id" column="id"/>
+        <result property="chefId" column="chef_id"/>
+        <result property="chefTem" column="chef_tem"/>
+        <result property="chefHeal" column="chef_heal"/>
+        <result property="packerId" column="packer_id"/>
+        <result property="packerTem" column="packer_tem"/>
+        <result property="packerHeal" column="packer_heal"/>
+        <result property="takemanId" column="takeman_id"/>
+        <result property="takemanTem" column="takeman_tem"/>
+        <result property="takemanHeal" column="takeman_heal"/>
+        <result property="updatetime" column="updatetime"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+
+</mapper>

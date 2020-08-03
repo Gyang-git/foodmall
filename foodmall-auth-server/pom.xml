@@ -20,6 +20,11 @@
     </properties>
 
     <dependencies>
+        <!--springSession-->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
         <!--公共依赖-->
         <dependency>
             <groupId>com.atghy.foodmall</groupId>
@@ -31,6 +36,11 @@
                     <artifactId>mybatis-plus-boot-starter</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <!--thymeleaf-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <!--springSession-redis辅助实现登录-->
         <dependency>

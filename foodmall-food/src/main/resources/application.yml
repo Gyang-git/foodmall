@@ -4,21 +4,36 @@ spring:
     password: 9780919
     url: jdbc:mysql://localhost:3306/foodmall_ffs?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   cloud:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+
   application:
     name: foodmall-food
+
   jackson:
-    date-format: yyyy-MM-dd HH:m m:ss
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
   thymeleaf:
     cache: false
+
+  #session存储形式
+  session:
+    store-type: redis
+
+  redis:
+    port: 6379
+    host: 192.168.252.128
+
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
     db-config:
       id-type: auto
+
 server:
   port: 14000
   #  1-配置全局的逻辑删除规则
@@ -29,4 +44,3 @@ server:
       id-type: auto
       logic-delete-value: 1   #逻辑删除1为删除
       logic-not-delete-value: 0   #逻辑删除0为不删除
-

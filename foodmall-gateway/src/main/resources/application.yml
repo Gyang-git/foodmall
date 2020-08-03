@@ -66,6 +66,16 @@ spring:
           predicates:
             - Host=auth.foodmall.com
 
+        - id: foodmall_cart_route
+          uri: lb://foodmall-cart
+          predicates:
+            - Host=cart.foodmall.com
+
+        - id: foodmall_order_route
+          uri: lb://foodmall-order
+          predicates:
+            - Host=order.foodmall.com
+
 #        - id: foodmall_ware_route
 #          uri: lb://foodmall-ware
 #          predicates:
