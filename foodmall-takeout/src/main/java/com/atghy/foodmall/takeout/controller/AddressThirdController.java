@@ -1,15 +1,13 @@
 package com.atghy.foodmall.takeout.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
+import com.atghy.foodmall.takeout.vo.AddressVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.atghy.foodmall.takeout.entity.AddressThirdEntity;
 import com.atghy.foodmall.takeout.service.AddressThirdService;
@@ -31,6 +29,13 @@ public class AddressThirdController {
     @Autowired
     private AddressThirdService addressThirdService;
 
+    //获取地址
+    @GetMapping("/getAddress")
+    public List<AddressVo> getAddress(){
+        List<AddressVo> addressVos = addressThirdService.getAddress();
+        return addressVos;
+    }
+
     /**
      * 列表
      */
@@ -38,7 +43,6 @@ public class AddressThirdController {
     //@RequiresPermissions("takeout:addressthird:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = addressThirdService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 

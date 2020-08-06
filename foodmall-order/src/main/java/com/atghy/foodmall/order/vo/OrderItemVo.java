@@ -20,6 +20,10 @@ public class OrderItemVo {
 
     private String imgUrl;
 
+    private String stock;
+
+    private String restaurantName;
+
     private BigDecimal price;
 
     private Integer count;

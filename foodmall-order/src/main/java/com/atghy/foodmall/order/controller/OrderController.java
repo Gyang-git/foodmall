@@ -23,18 +23,10 @@ import com.atghy.foodmall.common.utils.R;
  * @date 2020-08-02 16:29:45
  */
 @RestController
-@RequestMapping("order/order")
+@RequestMapping("order/order/")
 public class OrderController {
     @Autowired
     private OrderService orderService;
-
-    //去结算
-    @GetMapping("toTrace")
-    public String toTrace(Model model){
-        OrderConfirmVo oderConfirmVo = orderService.confirmOrder();
-        model.addAttribute("data",oderConfirmVo);
-        return "confirm";
-    }
 
     /**
      * 列表

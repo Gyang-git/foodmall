@@ -1,8 +1,11 @@
 package com.atghy.foodmall.takeout.dao;
 
 import com.atghy.foodmall.takeout.entity.AddressThirdEntity;
+import com.atghy.foodmall.takeout.vo.AddressVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * 外卖可选地址三级分类
@@ -13,5 +16,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface AddressThirdDao extends BaseMapper<AddressThirdEntity> {
-	
+
+    List<AddressVo> getAddress();
 }

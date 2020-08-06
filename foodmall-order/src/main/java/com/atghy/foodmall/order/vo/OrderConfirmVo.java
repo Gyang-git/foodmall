@@ -1,6 +1,5 @@
 package com.atghy.foodmall.order.vo;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,10 +14,6 @@ import java.util.Map;
  * Description:
  */
 public class OrderConfirmVo {
-
-    @Getter
-    @Setter
-    private Address address;
 
     @Getter
     @Setter
@@ -38,6 +33,10 @@ public class OrderConfirmVo {
     @Getter
     @Setter
     private Integer score;
+
+    @Getter
+    @Setter
+    private List<AddressVo> addressList;
 
     //商品总件数
     public Integer getCount(){
@@ -64,22 +63,5 @@ public class OrderConfirmVo {
     //返回结算总价
     public BigDecimal getPayPrice() {
         return getTotal();
-    }
-
-    //地址
-    @Data
-    private class Address {
-        /**
-         * 地址一级分类
-         */
-        private Integer addressFirst;
-        /**
-         * 地址二级分类
-         */
-        private Integer addressSecond;
-        /**
-         * 地址三级分类
-         */
-        private Integer addressThird;
     }
 }

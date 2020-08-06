@@ -2,6 +2,7 @@ package com.atghy.foodmall.order.interceptor;
 
 import com.atghy.foodmall.common.constant.AuthServerConstant;
 import com.atghy.foodmall.common.vo.CustomerResponseVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -15,14 +16,23 @@ import java.util.TreeMap;
  * Date: 2020-08-02
  * Description: 登录拦截器
  */
+@Slf4j
 @Component
 public class LoginUserInterceptor implements HandlerInterceptor {
 
-    public static ThreadLocal<CustomerResponseVo> loginUser = new ThreadLocal<>();
+    public static ThreadLocal<CustomerResponseVo> loginUser = new InheritableThreadLocal<>();
 
-    //方法执行之前执行该拦截
+    /**
+     * 拦截器 在方法执行之前进行拦截
+     * @param request
+     * @param response
+     * @param handler
+     * @return
+     * @throws Exception
+     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        log.info(Thread.currentThread().getId() + "<---当前线程为");
         CustomerResponseVo attribute = (CustomerResponseVo) request.getSession().getAttribute(AuthServerConstant.LOGIN_USER);
         if (attribute != null){
             loginUser.set(attribute);

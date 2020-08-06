@@ -1,6 +1,8 @@
 package com.atghy.foodmall.order.service;
 
 import com.atghy.foodmall.order.vo.OrderConfirmVo;
+import com.atghy.foodmall.order.vo.OrderSubmitVo;
+import com.atghy.foodmall.order.vo.SubmitOrderResponseVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.atghy.foodmall.common.utils.PageUtils;
 import com.atghy.foodmall.order.entity.OrderEntity;
@@ -20,5 +22,6 @@ public interface OrderService extends IService<OrderEntity> {
 
     OrderConfirmVo confirmOrder();
 
+    SubmitOrderResponseVo submitOrder(OrderSubmitVo vo);
 }
 

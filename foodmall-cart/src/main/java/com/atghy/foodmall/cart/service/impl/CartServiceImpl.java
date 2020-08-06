@@ -9,6 +9,7 @@ import com.atghy.foodmall.cart.vo.Cart;
 import com.atghy.foodmall.cart.vo.CartItem;
 import com.atghy.foodmall.cart.vo.SkuInfoVo;
 import com.atghy.foodmall.cart.vo.UserInfoVo;
+import com.atghy.foodmall.common.constant.FoodConstant;
 import com.atghy.foodmall.common.utils.R;
 import com.mysql.cj.xdevapi.Type;
 import com.sun.xml.internal.bind.v2.TODO;
@@ -150,7 +151,10 @@ public class CartServiceImpl implements CartService {
                     });
                     //获得该sku的最新价格
                     BigDecimal price = single.getPrice();
+                    item.setRestaurantName(single.getRestaurantName());
+                    item.setStock(single.getQuantity() > single.getQuantityLock() ? FoodConstant.HAS_STOCK : FoodConstant.WITHOUT_STOCK);
                     item.setPrice(price);
+                    item.setType("single");
                 }else {
                     R r = foodFeignService.setmealInfo(item.getSetmealId());
                     SkuInfoVo setmeal = r.getData("setmeal", new TypeReference<SkuInfoVo>() {

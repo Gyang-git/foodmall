@@ -3,7 +3,7 @@
 
 <mapper namespace="com.atghy.foodmall.takeout.dao.AddressThirdDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.atghy.foodmall.takeout.entity.AddressThirdEntity" id="addressThirdMap">
         <result property="id" column="id"/>
         <result property="firstId" column="first_id"/>
@@ -11,6 +11,11 @@
         <result property="thirdAddress" column="third_address"/>
         <result property="status" column="status"/>
     </resultMap>
+    <select id="getAddress" resultType="com.atghy.foodmall.takeout.vo.AddressVo">
+        SELECT tfs_address_first.first_address,tfs_address_second.second_address,tfs_address_third.third_address FROM
+        tfs_address_third LEFT JOIN tfs_address_second ON tfs_address_third.second_id = tfs_address_second.id
+        LEFT JOIN tfs_address_first ON tfs_address_third.first_id = tfs_address_first.id
+    </select>
 
 
 </mapper>

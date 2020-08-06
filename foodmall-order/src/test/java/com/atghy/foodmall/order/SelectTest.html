@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<select name="" id="province">
+
+</select>
+<select name="" id="city">
+    <option value="">请选择</option>
+</select>
+<select name="" id="town">
+    <option value="">请选择</option>
+</select>
+</body>
+<script src="../ajax.js"></script>
+<script>
+    class city{
+        constructor(){
+            this.province = document.querySelector('#province');
+            this.city = document.querySelector('#city');
+            this.town = document.querySelector('#town');
+            this.init();
+        }
+        init(){
+            this.getData();
+        }
+        getData(){
+            var that = this;
+            ajax({
+                url:'city.json',
+                success:res=>{
+                    this.res = JSON.parse(res).list;
+                    this.res = formatData(this.res);
+                    console.log(this.res);
+                    var str = '<option value="">请选择</option>';
+                    this.res.forEach(({city_id,name}) => {
+                        str += `<option value="${city_id}">${name}</option>`;
+                    });
+                    this.province.innerHTML = str;
+                    this.province.onchange = function(){
+                        if(!this.value){
+                            return;
+                        }
+                        that.getCity(this.value);
+                        that.town.innerHTML = '<option value="">请选择</option>';
+                    }
+                }
+            })
+        }
+        getCity(provinceValue){
+            var that = this;
+            var cityValue = this.res.filter(({name,city_id})=>{
+                return city_id === provinceValue;
+            })[0].list;
+            var str = '<option value="">请选择</option>';
+            cityValue.forEach(({name,city_id})=>{
+                str += `<option value="${city_id}">${name}</option>`;
+            })
+            this.city.innerHTML = str;
+            this.city.onchange = function(){
+                if(!this.value){
+                    return;
+                }
+                that.getTown(this.value,cityValue);
+            }
+        }
+        getTown(value,city){
+
+            var town = city.filter(({name,city_id})=>{
+                return city_id === value;
+            })[0].list;
+            console.log(value);
+            var str = '<option value="">请选择</option>';
+            console.log(town);
+
+            town.forEach(({name,city_id})=>{
+                str += `<option value="${city_id}">${name}</option>`;
+            })
+            this.town.innerHTML = str;
+        }
+    }
+
+    function formatData(res){
+        var a = [];
+        for(var i = 0;i<4;i++){
+            a.push(res.shift());
+        }
+        var b =[];
+        var arr = res.filter(item=>{
+            if(item.name == '香港' || item.name == '澳门'){
+                b.push(item);
+            }else{
+                return item;
+            }
+        })
+        arr.unshift({
+            name:'直辖市',
+            city_id : 'CH99',
+            list :a
+        },{
+            name:'特别行政区',
+            city_id : 'CH98',
+            list :b
+        });
+        return arr;
+    }
+    new city();
+</script>
+</html>

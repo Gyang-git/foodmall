@@ -4,6 +4,7 @@ import com.atghy.foodmall.order.interceptor.LoginUserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -14,12 +15,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class OrderWebConfigurer implements WebMvcConfigurer {
+
     @Autowired
     LoginUserInterceptor loginUserInterceptor;
 
     //登录拦截器注册实现
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginUserInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(loginUserInterceptor).addPathPatterns("/**").excludePathPatterns("/error");
     }
 }

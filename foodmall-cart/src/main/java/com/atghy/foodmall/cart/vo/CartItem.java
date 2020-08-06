@@ -1,6 +1,8 @@
 package com.atghy.foodmall.cart.vo;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -13,12 +15,20 @@ import java.util.List;
  */
 public class CartItem {
 
+    @Getter
+    @Setter
     private Long skuId;
 
     private Long singleId;
 
     private Long setmealId;
 
+    @Getter
+    @Setter
+    private String restaurantName;
+
+    @Getter
+    @Setter
     private String type;
 
     private Boolean check = true;
@@ -29,8 +39,14 @@ public class CartItem {
 
     private Integer count;
 
+    @Getter
+    @Setter
+    private String stock;
+
     private BigDecimal price;
 
+    @Getter
+    @Setter
     private String categoryName;
 
     private BigDecimal totalPrice;

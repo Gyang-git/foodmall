@@ -16,5 +16,5 @@ import java.util.List;
 @FeignClient("foodmall-food")
 public interface FoodFeignService {
     @PostMapping("/food/single/hasStock")
-    public R getSingleHasStock(@RequestBody List<Long> singleIds);
+    R getSingleHasStock(@RequestBody List<Long> singleIds);
 }

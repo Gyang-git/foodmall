@@ -1,6 +1,9 @@
 package com.atghy.foodmall.takeout.service.impl;
 
+import com.atghy.foodmall.takeout.vo.AddressVo;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -24,6 +27,13 @@ public class AddressThirdServiceImpl extends ServiceImpl<AddressThirdDao, Addres
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<AddressVo> getAddress() {
+        AddressThirdDao addressThirdDao = this.baseMapper;
+        List<AddressVo> addressVos = addressThirdDao.getAddress();
+        return addressVos;
     }
 
 }

@@ -17,6 +17,9 @@
         <result property="useStatus" column="use_status"/>
         <result property="status" column="status"/>
     </resultMap>
+    <select id="getSkuStock" resultType="java.lang.Long">
+        SELECT SUM(quantity-quantity_lock) FROM TABLE_NAME = #{singleEntityDbName} WHERE id = #{singleId};
+    </select>
 
 
 </mapper>

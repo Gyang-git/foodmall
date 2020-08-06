@@ -1,5 +1,8 @@
 package com.atghy.foodmall.common.exception;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Created with IntelliJ IDEA
  * User: GHYANG
@@ -7,16 +10,16 @@ package com.atghy.foodmall.common.exception;
  * Description:
  */
 public class NoStockException extends RuntimeException{
-    private Long skuId;
-    public NoStockException(Long skuId){
-        super("商品id--"+skuId+"--没有足够的库存了");
+
+    @Getter
+    @Setter
+    private String name;
+
+    public NoStockException(Long name){
+        super("餐品--"+name+"--没有足够的库存了");
     }
 
-    public Long getSkuId() {
-        return skuId;
-    }
-
-    public void setSkuId(Long skuId) {
-        this.skuId = skuId;
+    public NoStockException(String msg) {
+        super(msg);
     }
 }
