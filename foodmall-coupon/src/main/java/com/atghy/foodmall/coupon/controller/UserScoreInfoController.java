@@ -1,15 +1,13 @@
 package com.atghy.foodmall.coupon.controller;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.atghy.foodmall.coupon.entity.UserScoreInfoEntity;
 import com.atghy.foodmall.coupon.service.UserScoreInfoService;
@@ -30,6 +28,12 @@ import com.atghy.foodmall.common.utils.R;
 public class UserScoreInfoController {
     @Autowired
     private UserScoreInfoService userScoreInfoService;
+
+    @GetMapping("/getDiscount")
+    public R getDiscountByUuid(@RequestParam Long uuid){
+        BigDecimal discount = userScoreInfoService.getOne(new QueryWrapper<UserScoreInfoEntity>().eq("uuid",uuid)).getDiscount();
+        return R.ok().put("discount",discount);
+    }
 
     /**
      * 列表

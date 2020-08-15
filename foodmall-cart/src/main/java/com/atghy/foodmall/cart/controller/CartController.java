@@ -58,6 +58,7 @@ public class CartController {
     @GetMapping("/currentUserCartItems")
     @ResponseBody
     public List<CartItem> getCurrentUserCartItems(){
-        return cartService.getUserCartItems();
+        List<CartItem> userCartItems = cartService.getUserCartItems();
+        return userCartItems;
     }
 }

@@ -14,6 +14,7 @@ import com.atghy.foodmall.common.utils.R;
 import com.mysql.cj.xdevapi.Type;
 import com.sun.xml.internal.bind.v2.TODO;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -149,18 +150,21 @@ public class CartServiceImpl implements CartService {
                     R r = foodFeignService.singleInfo(item.getSingleId());
                     SkuInfoVo single = r.getData("single", new TypeReference<SkuInfoVo>() {
                     });
+                    Long skuId = item.getSingleId();
                     //获得该sku的最新价格
-                    BigDecimal price = single.getPrice();
-                    item.setRestaurantName(single.getRestaurantName());
+                    BeanUtils.copyProperties(single,item);
                     item.setStock(single.getQuantity() > single.getQuantityLock() ? FoodConstant.HAS_STOCK : FoodConstant.WITHOUT_STOCK);
-                    item.setPrice(price);
                     item.setType("single");
+                    item.setSkuId(skuId);
                 }else {
                     R r = foodFeignService.setmealInfo(item.getSetmealId());
                     SkuInfoVo setmeal = r.getData("setmeal", new TypeReference<SkuInfoVo>() {
                     });
-                    BigDecimal price = setmeal.getPrice();
-                    item.setPrice(price);
+                    Long skuId = item.getSingleId();
+                    BeanUtils.copyProperties(setmeal,item);
+                    item.setStock(setmeal.getQuantity() > setmeal.getQuantityLock() ? FoodConstant.HAS_STOCK : FoodConstant.WITHOUT_STOCK);
+                    item.setType("setmeal");
+                    item.setSkuId(skuId);
                 }
                 //收集并返回所有的购物项
                 return item;

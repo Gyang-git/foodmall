@@ -25,6 +25,9 @@
         <result property="status" column="status"/>
         <result property="note" column="note"/>
     </resultMap>
+    <update id="updateOrderStatus">
+        UPDATE ofs_order SET `order_status` = #{code},`pay_way` = #{payWay} WHERE order_sn = #{outTradeNo}
+    </update>
 
 
 </mapper>

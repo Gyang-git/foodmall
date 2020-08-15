@@ -9,11 +9,11 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 收集外卖员个人基础信息
+ * 收集派送员个人基础信息
  * 
  * @author GHYANG
  * @email 58132971@qq.com
- * @date 2020-07-19 10:32:49
+ * @date 2020-08-15 22:26:58
  */
 @Data
 @TableName("ufs_takeman")
@@ -26,7 +26,7 @@ public class TakemanEntity implements Serializable {
 	@TableId
 	private Long id;
 	/**
-	 * 昵称
+	 * 用户名
 	 */
 	private String name;
 	/**
@@ -34,17 +34,21 @@ public class TakemanEntity implements Serializable {
 	 */
 	private String mobile;
 	/**
-	 * 邮箱
-	 */
-	private String email;
-	/**
-	 * 性别
+	 * 性别 1->男；2->女
 	 */
 	private Integer gender;
 	/**
-	 * 最近派单时间
+	 * 生日
 	 */
-	private Date updateTime;
+	private Date birthday;
+	/**
+	 * 
+	 */
+	private String workType;
+	/**
+	 * 生成时间
+	 */
+	private Date saveTime;
 	/**
 	 * 启用状态
 	 */

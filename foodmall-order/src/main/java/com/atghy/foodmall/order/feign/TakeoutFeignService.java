@@ -14,7 +14,7 @@ import java.util.List;
  * Description:
  */
 @FeignClient("foodmall-takeout")
-public interface takeoutFeignService {
+public interface TakeoutFeignService {
     @GetMapping("/takeout/addressthird/getAddress")
     List<AddressVo> getAddress();
 }

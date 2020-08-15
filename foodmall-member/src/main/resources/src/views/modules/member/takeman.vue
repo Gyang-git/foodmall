@@ -32,7 +32,7 @@
         prop="name"
         header-align="center"
         align="center"
-        label="昵称">
+        label="用户名">
       </el-table-column>
       <el-table-column
         prop="mobile"
@@ -41,22 +41,28 @@
         label="手机号码">
       </el-table-column>
       <el-table-column
-        prop="email"
-        header-align="center"
-        align="center"
-        label="邮箱">
-      </el-table-column>
-      <el-table-column
         prop="gender"
         header-align="center"
         align="center"
-        label="性别">
+        label="性别 1->男；2->女">
       </el-table-column>
       <el-table-column
-        prop="updateTime"
+        prop="birthday"
         header-align="center"
         align="center"
-        label="最近派单时间">
+        label="生日">
+      </el-table-column>
+      <el-table-column
+        prop="workType"
+        header-align="center"
+        align="center"
+        label="">
+      </el-table-column>
+      <el-table-column
+        prop="saveTime"
+        header-align="center"
+        align="center"
+        label="生成时间">
       </el-table-column>
       <el-table-column
         prop="status"

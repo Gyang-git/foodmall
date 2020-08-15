@@ -9,6 +9,13 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: order_route
+          uri: lb://foodmall-order
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
         - id: ware_route
           uri: lb://foodmall-ware
           predicates:
@@ -80,6 +87,11 @@ spring:
           uri: lb://foodmall-takeout
           predicates:
             - Host=takeout.foodmall.com
+
+        - id: foodmall_member_route
+          uri: lb://foodmall-member
+          predicates:
+            - Host=member.foodmall.com
 
 #        - id: foodmall_ware_route
 #          uri: lb://foodmall-ware

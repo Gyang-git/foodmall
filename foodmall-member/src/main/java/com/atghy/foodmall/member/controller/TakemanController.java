@@ -5,7 +5,11 @@ import java.util.Map;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.atghy.foodmall.member.entity.TakemanEntity;
 import com.atghy.foodmall.member.service.TakemanService;
@@ -15,11 +19,11 @@ import com.atghy.foodmall.common.utils.R;
 
 
 /**
- * 收集外卖员个人基础信息
+ * 收集派送员个人基础信息
  *
  * @author GHYANG
  * @email 58132971@qq.com
- * @date 2020-07-19 10:32:49
+ * @date 2020-08-15 22:26:58
  */
 @RestController
 @RequestMapping("member/takeman")
@@ -83,10 +87,4 @@ public class TakemanController {
         return R.ok();
     }
 
-    //删除单个
-    @PostMapping("/deleteById")
-    public R deleteById(@RequestBody Long id){
-        takemanService.removeById(id);
-        return R.ok();
-    }
 }

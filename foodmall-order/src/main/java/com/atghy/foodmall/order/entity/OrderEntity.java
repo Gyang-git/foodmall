@@ -1,11 +1,14 @@
 package com.atghy.foodmall.order.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.math.BigDecimal;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -25,10 +28,13 @@ public class OrderEntity implements Serializable {
 	 */
 	@TableId
 	private Long id;
+
+	private Long uuid;
+
 	/**
 	 * 订单编号
 	 */
-	private Long orderSn;
+	private String orderSn;
 	/**
 	 * 派送编号 外联外卖派送信息
 	 */
@@ -76,15 +82,15 @@ public class OrderEntity implements Serializable {
 	/**
 	 * 地址一级分类
 	 */
-	private Integer addressFirst;
+	private String addressFirst;
 	/**
 	 * 地址二级分类
 	 */
-	private Integer addressSecond;
+	private String addressSecond;
 	/**
 	 * 地址三级分类
 	 */
-	private Integer addressThird;
+	private String addressThird;
 	/**
 	 * 成交获得积分
 	 */
@@ -97,5 +103,10 @@ public class OrderEntity implements Serializable {
 	 * 备注
 	 */
 	private String note;
+
+	private Date buyDate = new Date();
+
+	@TableField(exist = false)
+	private List<OrderItemEntity> itemEntities;
 
 }

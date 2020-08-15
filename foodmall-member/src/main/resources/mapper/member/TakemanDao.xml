@@ -8,9 +8,10 @@
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="mobile" column="mobile"/>
-        <result property="email" column="email"/>
         <result property="gender" column="gender"/>
-        <result property="updateTime" column="update_time"/>
+        <result property="birthday" column="birthday"/>
+        <result property="workType" column="work_type"/>
+        <result property="saveTime" column="save_time"/>
         <result property="status" column="status"/>
     </resultMap>
 

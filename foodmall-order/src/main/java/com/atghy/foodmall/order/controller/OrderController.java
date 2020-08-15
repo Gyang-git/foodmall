@@ -3,7 +3,9 @@ package com.atghy.foodmall.order.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.atghy.foodmall.order.vo.FareInfoVo;
 import com.atghy.foodmall.order.vo.OrderConfirmVo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,35 @@ import com.atghy.foodmall.common.utils.R;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+
+    @PostMapping("/listWithItem")
+    public R listWithItem(@RequestBody Map<String,Object> params){
+        PageUtils page = orderService.queryPageWithItem(params);
+        return R.ok().put("page",page);
+    }
+
+    /**
+     * 获取运费 服务费 折扣价
+     * @return
+     */
+    @GetMapping("/getOrderInfo")
+    public R getOrderInfo(@RequestParam("countTotal") Long countTotal){
+        FareInfoVo fareInfoVo = orderService.getOrderInfo(countTotal);
+        return R.ok().setData(fareInfoVo);
+    }
+
+    @GetMapping("/getOrder/{orderSn}")
+    public R getOrderByOrderSn(@PathVariable("orderSn") String orderSn){
+        OrderEntity orderEntity = orderService.getOne(new QueryWrapper<OrderEntity>().eq("order_sn", orderSn));
+        return R.ok().put("order",orderEntity);
+    }
+
+    @RequestMapping("/back/list")
+    //@RequiresPermissions("order:order:list")
+    public R backList(@RequestParam Map<String, Object> params){
+        PageUtils page = orderService.queryPage(params);
+        return R.ok().put("page", page);
+    }
 
     /**
      * 列表

@@ -346,8 +346,8 @@
     <!--地址-->
     <form>
         <span style="color: blue">选择地址</span>
-        <select id="firstAddress">
-            <option th:each="address:${data.addressList}" value ="Address">[[${address.firstAddress}]]--[[${address.secondAddress}]]--[[${address.thirdAddress}]]</option>
+        <select id="choseAddress">
+            <option th:each="address:${data.addressList}" id="addressOpt" th:text="${address.firstAddress}+'--'+${address.secondAddress}+'--'+${address.thirdAddress}"></option>
         </select>
     </form>
     <div class="hh1"/>
@@ -360,16 +360,27 @@
     <p class="xiang">详情</p>
 </div>
 
-<!--地址-->
-
 <!--支付方式-->
 <h4 class="h4">支付方式</h4>
-
 <div class="top-6">
-    <p>货到付款</p>
+    <p>餐到付款</p>
     <p><span>惠</span>在线支付</p>
 </div>
 <div class="hh1"></div>
+
+<!--校园外卖备注留言-->
+<div class="top-4">
+    <p>备注留言</p>
+    <p>提要求·说口味·留佳话</p>
+</div>
+
+<!--支付方式-->
+<h4 class="h4">留言订单</h4>
+<div class="top-6">
+    <textarea style="width: 440px;height: 100px ;margin: 0" id="noteText">请根据需要留言口味等</textarea>
+</div>
+<div class="hh1"></div>
+
 <!--送货清单-->
 <h4 class="h4" style="margin-top: 5px;">送货清单</h4>
 <div class="top_1">
@@ -458,37 +469,36 @@
 <div class="xia">
     <div class="qian">
         <p class="qian_y">
-            <span>[[${data.count}]]</span>
+            <span id="countTotal">[[${data.count}]]</span>
             <span>件餐品，总餐品金额：</span>
             <span class="rmb">￥[[${#numbers.formatDecimal(data.total,1,2)}]]</span>
         </p>
         <p class="qian_y">
-            <span>返现：</span>
-            <span class="rmb">  ￥0.00</span>
+            <span>会员折扣：</span>
+            <span class="rmb" style="color: red"> &nbsp ￥<b id="discountEle"></b></span>
         </p>
         <p class="qian_y">
-            <span>运费： </span>
-            <span class="rmb"> &nbsp ￥<b id="fareEle"></b></span>
+            <span>服务金额： </span>
+            <span class="rmb" style="color: red"> &nbsp ￥<b id="serverEle" ></b></span>
         </p>
         <p class="qian_y">
-            <span>包装费： </span>
-            <span class="rmb"> &nbsp ￥0.00</span>
-        </p>
-        <p class="qian_y">
-            <span>退换无忧： </span>
+            <span>无忧购餐： </span>
             <span class="rmb"> &nbsp ￥0.00</span>
         </p>
 
     </div>
 
     <div class="yfze">
-        <p class="yfze_a"><span class="z">应付总额：</span><span class="hq">￥<b id="payPriceEle">[[${#numbers.formatDecimal(data.payPrice,1,2)}]]</b></span>
+        <p class="yfze_a"><span class="z">应付总额：</span><span class="hq">￥<b id="payPriceEle"></b></span>
         </p>
         <p class="yfze_b">寄送至：<span id="receiveAddressEle"></span> 收货人：<span id="receiverEle"></span></p>
     </div>
-    <form action="http://order.foodmall.com/submitOrder" method="post">
-        <input id="addrIdInput" type="hidden" name="addrId">
+    <form action="http://order.foodmall.com/submitOrder" method="post" onclick="loadInfo()">
         <input id="payPriceInput" type="hidden" name="payPrice">
+        <input id="firstInput" type="hidden" name="firstAddress">
+        <input id="secondInput" type="hidden" name="secondAddress">
+        <input id="thirdInput" type="hidden" name="thirdAddress">
+        <input id="noteInput" type="hidden" name="note">
         <input type="hidden" name="orderToken" th:value="${data.orderToken}">
         <button class="tijiao" type="submit">提交订单</button>
     </form>
@@ -698,81 +708,53 @@
     </p>
 </div>
 <script>
-    $(document).ready(function () {
-        $('.header-right li:nth-of-type(6)').hover(function () {
-            $('.header-r-11').css('display', 'block')
-        }, function () {
-            $('.header-r-11').css('display', 'none')
-        })
-        $('.header-right li:nth-of-type(12)').hover(function () {
-            $('.header-r-2').css('display', 'block')
-        }, function () {
-            $('.header-r-2').css('display', 'none')
-        })
-        $('.header-right li:nth-of-type(14)').hover(function () {
-            $('.header-r-3').css('display', 'block')
-        }, function () {
-            $('.header-r-3').css('display', 'none')
-        })
-        $('.header-l-2').hover(function () {
-            $('.header-l-d').css('display', 'block')
-        }, function () {
-            $('.header-l-d').css('display', 'none')
-        })
-        $('.header-r-4').hover(function () {
-            $('.h-r-1').css('display', 'block')
-        }, function () {
-            $('.h-r-1').css('display', 'none')
-        })
-        highligth();
-        var defAddrId = $(".addr-item p[def='1']").attr("addrId");
-        getFare(defAddrId);
+
+    $(document).ready(function(){
+        getFare();
+    });
+
+    $(".tijiao").click(function () {
+        loadInfo();
     })
 
-    //地址高亮
-    function highligth() {
-        $(".addr-item p").css({"border": "2px solid gray"})
-        $(".addr-item p[def='1']").css({"border": "2px solid red"})
-    }
+    $("#choseAddress").blur(function () {
+        loadInfo();
+    });
 
-    //收货地址选择
-    $(".addr-item p").click(function () {
-        $(".addr-item p").attr("def", "0");
-        $(this).attr("def", "1");
-        highligth();
-
-        //获取当前地址id 查询运费
-        var addrId = $(this).attr("addrId");
-        //发送请求获取运费信息
-        getFare(addrId);
-
+    $("#noteText").blur(function () {
+        loadInfo();
     });
 
     //获取运费
-    function getFare(addrId) {
+    function getFare() {
         //表单回填选择的地址
-        $("#addrIdInput").val(addrId);
-
-        $.get("http://foodmall.com/api/ware/wareinfo/fare?addrId=" + addrId, function (res) {
+        $.get("http://order.foodmall.com/order/order/getOrderInfo?countTotal=" + [[${data.count}]], function (res) {
             //设置运费
-            $("#fareEle").text(res.data.fare);
+            $("#serverEle").text(res.data.serviceFare);
+            //折扣金额
+            $("#discountEle").text((1-res.data.discount)*[[${data.total}]]);
+
             //设置应付总额
             var total = [[${data.total}]];
-            var payPrice=total * 1 + res.data.fare * 1;
+            var payPrice=total * 1 + res.data.serviceFare * 1 - (1-res.data.discount)*[[${data.total}]] * 1;
             $("#payPriceEle").text(payPrice);
             $("#payPriceInput").val(payPrice);
-            //设置收货地址
-            $("#receiveAddressEle").text(res.data.address.province + " " + res.data.address.detailAddress);
-            //设置收货人
-            $("#receiverEle").text(res.data.address.name);
         });
     }
-
-    //加载地址联动
-    function generateAddress() {
-        $.get("http://takeout.foodmall.com/generateAddress"){
-            //
-        }
+    
+    //订单加载前填充数据
+    function loadInfo() {
+        //订单地址
+        var address = $("#choseAddress").val().split("--");
+        var firstAddress = address[0];
+        var secondAddress = address[1];
+        var thirdAddress = address[2];
+        $("#firstInput").val(firstAddress);
+        $("#secondInput").val(secondAddress);
+        $("#thirdInput").val(thirdAddress);
+        //备注留言
+        var note = $("#noteText").val();
+        $("#noteInput").val(note);
     }
 </script>
 </body>

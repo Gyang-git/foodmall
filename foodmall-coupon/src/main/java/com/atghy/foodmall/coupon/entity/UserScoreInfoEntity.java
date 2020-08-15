@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import lombok.Data;
 
@@ -40,7 +41,7 @@ public class UserScoreInfoEntity implements Serializable {
 	/**
 	 * 可享折扣
 	 */
-	private Long discount;
+	private BigDecimal discount;
 	/**
 	 * 使用状态
 	 */

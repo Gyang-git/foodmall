@@ -1,6 +1,9 @@
 package com.atghy.foodmall.order.web;
 
+import com.atghy.foodmall.common.constant.OrderCreateEnumConstant;
 import com.atghy.foodmall.common.exception.NoStockException;
+import com.atghy.foodmall.common.utils.PageUtils;
+import com.atghy.foodmall.common.utils.R;
 import com.atghy.foodmall.order.service.OrderService;
 import com.atghy.foodmall.order.vo.OrderConfirmVo;
 import com.atghy.foodmall.order.vo.OrderSubmitVo;
@@ -10,8 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -26,6 +32,18 @@ public class OrderWebController {
     @Autowired
     OrderService orderService;
 
+    @GetMapping("/memberOrder.html")
+    public String memberOrderPage(@RequestParam(value = "pageNum",defaultValue = "1")Integer pageNum, Model model){
+        //查出当前用户的所有订单
+        Map<String, Object> page = new HashMap<>();
+        page.put("page",pageNum.toString());
+        PageUtils pageUtils = orderService.queryPageWithItem(page);
+        R r = new R();
+        r.put("page",pageUtils);
+        model.addAttribute("orders",r);
+        return "orderList";
+    }
+
     //去结算
     @GetMapping("/toTrade")
     public String toTrace(Model model) throws ExecutionException, InterruptedException {
@@ -38,7 +56,7 @@ public class OrderWebController {
     public String submitOrder(OrderSubmitVo vo, Model model, RedirectAttributes redirectAttributes){
         try {
             SubmitOrderResponseVo responseVo = orderService.submitOrder(vo);
-            if (responseVo.getCode() == 0){
+            if (responseVo.getCode() == OrderCreateEnumConstant.ORDER_SUCCESS.getCode()){
                 //下单成功 前往支付页面
                 model.addAttribute("submitOrderResp",responseVo);
                 return "pay";

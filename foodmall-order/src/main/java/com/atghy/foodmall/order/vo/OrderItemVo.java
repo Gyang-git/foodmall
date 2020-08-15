@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * Created with IntelliJ IDEA
  * User: GHYANG
  * Date: 2020-08-02
- * Description:
+ * Description: 订单项
  */
 @Data
 public class OrderItemVo {
@@ -17,6 +17,8 @@ public class OrderItemVo {
     private String name;
 
     private String title;
+
+    private String foodType;
 
     private String imgUrl;
 

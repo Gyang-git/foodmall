@@ -22,6 +22,6 @@ public class OrderWebConfigurer implements WebMvcConfigurer {
     //登录拦截器注册实现
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginUserInterceptor).addPathPatterns("/**").excludePathPatterns("/error");
+        registry.addInterceptor(loginUserInterceptor).addPathPatterns("/**").excludePathPatterns("/error").excludePathPatterns("/listWithItem");
     }
 }

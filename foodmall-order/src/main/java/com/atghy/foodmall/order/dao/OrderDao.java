@@ -3,6 +3,7 @@ package com.atghy.foodmall.order.dao;
 import com.atghy.foodmall.order.entity.OrderEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 收集订单信息
@@ -13,5 +14,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface OrderDao extends BaseMapper<OrderEntity> {
-	
+
+    void updateOrderStatus(@Param("outTradeNo") String outTradeNo, @Param("code") int code, @Param("payWay") int payWay);
 }

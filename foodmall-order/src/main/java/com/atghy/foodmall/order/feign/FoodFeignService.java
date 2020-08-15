@@ -1,9 +1,9 @@
 package com.atghy.foodmall.order.feign;
 
 import com.atghy.foodmall.common.utils.R;
+import com.atghy.foodmall.order.vo.WareSkuLockVo;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,4 +17,13 @@ import java.util.List;
 public interface FoodFeignService {
     @PostMapping("/food/single/hasStock")
     R getSingleHasStock(@RequestBody List<Long> singleIds);
+
+    @RequestMapping("/food/single/info/{id}")
+    R info(@PathVariable("id") Long id);
+
+    @GetMapping("/food/single/getSingleByName/{name}")
+    R getSingleByName(@PathVariable("name")String name);
+
+    @PostMapping("/food/Stock/lock/order")
+    R orderLockStock(@RequestBody WareSkuLockVo lockVo);
 }

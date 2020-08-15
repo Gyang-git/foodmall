@@ -32,7 +32,7 @@ public enum BizCodeEnume {
     USER_EXIST_EXCEPTION(15001,"用户已存在"),
     PHONE_EXIST_EXCEPTION(15002,"手机号已存在"),
     MANAGER_PERMIT_LACK_EXCEPTION(15004,"店面负责人证件缺失"),
-    NO_STOCK_EXCEPTION(21000,"商品库存不足"),
+    NO_STOCK_EXCEPTION(11000,"餐品售罄"),
     LOGINACCT_PASSWORD_INNAILD_EXCEPTION(15003,"账号密码错误");
 
     private int code;

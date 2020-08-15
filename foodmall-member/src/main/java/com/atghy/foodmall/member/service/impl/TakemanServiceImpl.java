@@ -18,11 +18,11 @@ public class TakemanServiceImpl extends ServiceImpl<TakemanDao, TakemanEntity> i
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        System.out.println(params);
         IPage<TakemanEntity> page = this.page(
                 new Query<TakemanEntity>().getPage(params),
                 new QueryWrapper<TakemanEntity>()
         );
+
         return new PageUtils(page);
     }
 

@@ -4,20 +4,23 @@
     :close-on-click-modal="false"
     :visible.sync="visible">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
-    <el-form-item label="昵称" prop="name">
-      <el-input v-model="dataForm.name" placeholder="昵称"></el-input>
+    <el-form-item label="用户名" prop="name">
+      <el-input v-model="dataForm.name" placeholder="用户名"></el-input>
     </el-form-item>
     <el-form-item label="手机号码" prop="mobile">
       <el-input v-model="dataForm.mobile" placeholder="手机号码"></el-input>
     </el-form-item>
-    <el-form-item label="邮箱" prop="email">
-      <el-input v-model="dataForm.email" placeholder="邮箱"></el-input>
+    <el-form-item label="性别 1->男；2->女" prop="gender">
+      <el-input v-model="dataForm.gender" placeholder="性别 1->男；2->女"></el-input>
     </el-form-item>
-    <el-form-item label="性别" prop="gender">
-      <el-input v-model="dataForm.gender" placeholder="性别"></el-input>
+    <el-form-item label="生日" prop="birthday">
+      <el-input v-model="dataForm.birthday" placeholder="生日"></el-input>
     </el-form-item>
-    <el-form-item label="最近派单时间" prop="updateTime">
-      <el-input v-model="dataForm.updateTime" placeholder="最近派单时间"></el-input>
+    <el-form-item label="" prop="workType">
+      <el-input v-model="dataForm.workType" placeholder=""></el-input>
+    </el-form-item>
+    <el-form-item label="生成时间" prop="saveTime">
+      <el-input v-model="dataForm.saveTime" placeholder="生成时间"></el-input>
     </el-form-item>
     <el-form-item label="启用状态" prop="status">
       <el-input v-model="dataForm.status" placeholder="启用状态"></el-input>
@@ -39,26 +42,30 @@
           id: 0,
           name: '',
           mobile: '',
-          email: '',
           gender: '',
-          updateTime: '',
+          birthday: '',
+          workType: '',
+          saveTime: '',
           status: ''
         },
         dataRule: {
           name: [
-            { required: true, message: '昵称不能为空', trigger: 'blur' }
+            { required: true, message: '用户名不能为空', trigger: 'blur' }
           ],
           mobile: [
             { required: true, message: '手机号码不能为空', trigger: 'blur' }
           ],
-          email: [
-            { required: true, message: '邮箱不能为空', trigger: 'blur' }
-          ],
           gender: [
-            { required: true, message: '性别不能为空', trigger: 'blur' }
+            { required: true, message: '性别 1->男；2->女不能为空', trigger: 'blur' }
           ],
-          updateTime: [
-            { required: true, message: '最近派单时间不能为空', trigger: 'blur' }
+          birthday: [
+            { required: true, message: '生日不能为空', trigger: 'blur' }
+          ],
+          workType: [
+            { required: true, message: '不能为空', trigger: 'blur' }
+          ],
+          saveTime: [
+            { required: true, message: '生成时间不能为空', trigger: 'blur' }
           ],
           status: [
             { required: true, message: '启用状态不能为空', trigger: 'blur' }
@@ -81,9 +88,10 @@
               if (data && data.code === 0) {
                 this.dataForm.name = data.takeman.name
                 this.dataForm.mobile = data.takeman.mobile
-                this.dataForm.email = data.takeman.email
                 this.dataForm.gender = data.takeman.gender
-                this.dataForm.updateTime = data.takeman.updateTime
+                this.dataForm.birthday = data.takeman.birthday
+                this.dataForm.workType = data.takeman.workType
+                this.dataForm.saveTime = data.takeman.saveTime
                 this.dataForm.status = data.takeman.status
               }
             })
@@ -101,9 +109,10 @@
                 'id': this.dataForm.id || undefined,
                 'name': this.dataForm.name,
                 'mobile': this.dataForm.mobile,
-                'email': this.dataForm.email,
                 'gender': this.dataForm.gender,
-                'updateTime': this.dataForm.updateTime,
+                'birthday': this.dataForm.birthday,
+                'workType': this.dataForm.workType,
+                'saveTime': this.dataForm.saveTime,
                 'status': this.dataForm.status
               })
             }).then(({data}) => {

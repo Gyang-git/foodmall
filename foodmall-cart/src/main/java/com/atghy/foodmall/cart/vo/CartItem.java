@@ -25,11 +25,15 @@ public class CartItem {
 
     @Getter
     @Setter
-    private String restaurantName;
+    private String name;
 
     @Getter
     @Setter
-    private String type;
+    private String restaurantName;  //v
+
+    @Getter
+    @Setter
+    private String type;   //v
 
     private Boolean check = true;
 
@@ -41,9 +45,9 @@ public class CartItem {
 
     @Getter
     @Setter
-    private String stock;
+    private String stock;   //v
 
-    private BigDecimal price;
+    private BigDecimal price;   //v
 
     @Getter
     @Setter

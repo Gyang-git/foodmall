@@ -4,10 +4,13 @@ import com.atghy.foodmall.common.constant.AuthServerConstant;
 import com.atghy.foodmall.common.vo.CustomerResponseVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.TreeMap;
 
 /**
@@ -20,28 +23,30 @@ import java.util.TreeMap;
 @Component
 public class LoginUserInterceptor implements HandlerInterceptor {
 
-    public static ThreadLocal<CustomerResponseVo> loginUser = new InheritableThreadLocal<>();
+    public static ThreadLocal<CustomerResponseVo> loginUser=new InheritableThreadLocal<>();
 
-    /**
-     * 拦截器 在方法执行之前进行拦截
-     * @param request
-     * @param response
-     * @param handler
-     * @return
-     * @throws Exception
-     */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info(Thread.currentThread().getId() + "<---当前线程为");
-        CustomerResponseVo attribute = (CustomerResponseVo) request.getSession().getAttribute(AuthServerConstant.LOGIN_USER);
-        if (attribute != null){
-            loginUser.set(attribute);
-            //已经登录 放行
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
+
+        String uri  = request.getRequestURI();
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+        boolean statusMatch = antPathMatcher.match("/order/order/status/**", uri);//根据订单号查询订单
+        boolean payedMatch = antPathMatcher.match("/payed/notify", uri);//支付宝异步回调
+        boolean queryPayMatch = antPathMatcher.match("/queryPayStatus", uri); //支付宝查询支付状态接口
+        boolean backListMatch = antPathMatcher.match("/order/order/back/**",uri);//订单后台接口
+        boolean orderItemMatch = antPathMatcher.match("/order/orderitem/back/**",uri);//订单项后台接口
+        if(statusMatch || payedMatch||queryPayMatch || backListMatch || orderItemMatch){
             return true;
-        }else{
-            //未登录 拦截请求 重定向到登录页面
-            request.getSession().setAttribute("msg","请先完成登录操作");
+        }
+
+        CustomerResponseVo attribute = (CustomerResponseVo)request.getSession().getAttribute(AuthServerConstant.LOGIN_USER);
+        if(attribute!=null){
+            loginUser.set(attribute);
+            return true;
+        }else {
+            request.getSession().setAttribute("msg","请先登录！");
             response.sendRedirect("http://auth.foodmall.com/login.html");
+            //没登陆 去登录
             return false;
         }
     }

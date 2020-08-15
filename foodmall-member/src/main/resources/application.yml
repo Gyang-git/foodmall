@@ -12,6 +12,11 @@ spring:
     name: foodmall-member
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+  redis:
+    host: 192.168.252.128
+    port: 6379
+  session:
+    store-type: redis
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
@@ -19,6 +24,11 @@ mybatis-plus:
       id-type: auto
 server:
   port: 15000
+
+  #session过期时长
+  servlet:
+    session:
+      timeout: 1800s
 
   #  1-配置全局的逻辑删除规则
   #  2-配置逻辑删除的组件Bean---（MybatisPlus3.0以上无需配置）V

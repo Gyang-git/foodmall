@@ -6,7 +6,7 @@ package com.atghy.foodmall.common.constant;
  * Date: 2020-08-05
  * Description:
  */
-public enum  OrderEnumConstant {
+public enum  OrderCreateEnumConstant {
     ORDER_SUBMITING(1,"订单提交处理中"),
     ORDER_SUCCESS(2,"订单提交成功"),
     ORDER_FAIR_STOCKLACK(3,"订单提交失败 库存不足"),
@@ -17,7 +17,7 @@ public enum  OrderEnumConstant {
     private int code;
     private String msg;
 
-    OrderEnumConstant(int code, String msg) {
+    OrderCreateEnumConstant(int code, String msg) {
         this.code = code;
         this.msg = msg;
     }
