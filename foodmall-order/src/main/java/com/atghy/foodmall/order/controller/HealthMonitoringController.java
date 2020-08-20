@@ -5,11 +5,7 @@ import java.util.Map;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.atghy.foodmall.order.entity.HealthMonitoringEntity;
 import com.atghy.foodmall.order.service.HealthMonitoringService;
@@ -30,6 +26,12 @@ import com.atghy.foodmall.common.utils.R;
 public class HealthMonitoringController {
     @Autowired
     private HealthMonitoringService healthMonitoringService;
+
+    @PostMapping("/back/saveHealthMonitor")
+    public R saveHealthMonitor(@RequestBody HealthMonitoringEntity healthMonitoringEntity){
+        Long id = healthMonitoringService.saveHealthMonitor(healthMonitoringEntity);
+        return R.ok().put("id",id);
+    }
 
     /**
      * 列表
@@ -61,7 +63,6 @@ public class HealthMonitoringController {
     //@RequiresPermissions("order:healthmonitoring:save")
     public R save(@RequestBody HealthMonitoringEntity healthMonitoring){
 		healthMonitoringService.save(healthMonitoring);
-
         return R.ok();
     }
 

@@ -46,5 +46,9 @@ public interface OrderService extends IService<OrderEntity> {
      * @param seckillOrderTo
      */
     void createSeckillOrder(SeckillOrderTo seckillOrderTo);
+
+    Boolean takeoutOrder(String orderSn, String takeoutSn, Long healthId);
+
+    boolean takeoutArrive(String orderSn, String takeSn);
 }
 

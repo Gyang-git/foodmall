@@ -1,15 +1,12 @@
 package com.atghy.foodmall.order.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.atghy.foodmall.order.entity.OrderInfoEntity;
 import com.atghy.foodmall.order.service.OrderInfoService;
@@ -31,6 +28,12 @@ import com.atghy.foodmall.common.utils.R;
 public class OrderInfoController {
     @Autowired
     private OrderInfoService orderInfoService;
+
+    @GetMapping("/back/getInfo/{orderSn}")
+    public R getInfo(@PathVariable("orderSn") String orderSn){
+        List<OrderInfoEntity> entities = orderInfoService.getInfo(orderSn);
+        return R.ok().put("entities",entities);
+    }
 
     /**
      * 列表

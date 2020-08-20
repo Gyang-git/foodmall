@@ -204,7 +204,7 @@
                 <tr>
                     <td colspan="7" style="background:#F7F7F7" >
                         <span style="color:#AAAAAA">[[${#dates.format(order.buyDate,'yyyy-MM-dd HH:mm:ss')}]]</span>
-                        <span><ruby style="color:#AAAAAA">订单号:</ruby> [[${order.orderSn}]]</span>
+                        <span><ruby style="color:#AAAAAA" id="OrderSnSpan">订单号:</ruby> [[${order.orderSn}]]</span>
                         <span>校园外卖<i class="table_i"></i></span>
                         <i class="table_i5 isShow"></i>
                     </td>
@@ -236,11 +236,11 @@
                             <li style="color:gray;" th:if="${order.orderStatus==5}">订单取消</li>
                             <li style="color:red;" th:if="${order.orderStatus==6}">订单异常</li>
                             <li style="margin:4px 0;" class="hide"><i class="table_i2"></i>订单详情<i class="table_i3"></i>
-                                <div class="hi">
+                                <div class="hi" style="visibility: hidden">
                                     <div class="p-tit">
                                         校园派送   派送号:390085324974
                                     </div>
-                                    <div class="hideList">
+                                    <div class="hideList" id="orderInfoList">
                                         <ul>
                                             <li>
                                                 [北京市] 在北京昌平区南口公司进行签收扫描,快件已被拍照(您
@@ -263,7 +263,7 @@
                         </ul>
                     </td>
                     <td th:if="${itemStat.index==0}" th:rowspan="${itemStat.size}">
-                        <button>确认收餐</button>
+                        <button>订单反馈</button>
                         <p style="margin:4px 0; ">取消订单</p>
                         <p>催单</p>
                     </td>
@@ -677,5 +677,23 @@
 </body>
 <script src="/foodmall/static/member/js/jquery-3.1.1.min.js"></script>
 <script src="/foodmall/static/member/js/index.js"></script>
+<script>
+    //加载订单详情
+    function loadOrderInfo() {
+        //订单号
+        var orderSn = $("#OrderSnSpan").val();
+        $.get("http://order.foodmall.com/takeout/outinfo/back/getInfo/=" + orderSn, function (res) {
+            //设置运费
+            $("#serverEle").text(res.data.serviceFare);
+            //折扣金额
+            $("#discountEle").text((1-res.data.discount)*[[${data.total}]]);
 
+            //设置应付总额
+            var total = [[${data.total}]];
+            var payPrice=total * 1 + res.data.serviceFare * 1 - (1-res.data.discount)*[[${data.total}]] * 1;
+            $("#payPriceEle").text(payPrice);
+            $("#payPriceInput").val(payPrice);
+        });
+    }
+</script>
 </html>

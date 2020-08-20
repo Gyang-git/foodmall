@@ -102,7 +102,6 @@ public class SingleController {
     //@RequiresPermissions("food:single:save")
     public R save(@RequestBody SingleEntity single){
 		singleService.save(single);
-
         return R.ok();
     }
 

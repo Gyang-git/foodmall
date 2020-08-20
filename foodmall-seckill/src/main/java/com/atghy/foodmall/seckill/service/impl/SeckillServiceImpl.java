@@ -1,24 +1,33 @@
 package com.atghy.foodmall.seckill.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.atghy.foodmall.common.to.mq.SeckillOrderTo;
+import com.atghy.foodmall.common.utils.R;
 import com.atghy.foodmall.common.vo.CustomerResponseVo;
+import com.atghy.foodmall.seckill.feign.CouponFeignService;
+import com.atghy.foodmall.seckill.feign.FoodFeignService;
 import com.atghy.foodmall.seckill.interceptor.LoginUserInterceptor;
 import com.atghy.foodmall.seckill.service.SeckillService;
 import com.atghy.foodmall.seckill.to.SeckillFoodRedisTo;
+import com.atghy.foodmall.seckill.vo.SeckillSessionWithFoods;
+import com.atghy.foodmall.seckill.vo.SetmealInfoVo;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import org.apache.commons.lang.StringUtils;
 import org.redisson.api.RSemaphore;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.redisson.api.RedissonClient;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -32,10 +41,16 @@ import java.util.stream.Collectors;
 public class SeckillServiceImpl implements SeckillService {
 
     @Autowired
+    CouponFeignService couponFeignService;
+
+    @Autowired
+    FoodFeignService foodFeignService;
+
+    @Autowired
     RedissonClient redissonClient;
 
     @Autowired
-    RedisTemplate redisTemplate;
+    StringRedisTemplate redisTemplate;
 
     @Autowired
     RabbitTemplate rabbitTemplate;
@@ -169,5 +184,89 @@ public class SeckillServiceImpl implements SeckillService {
             }
         }
         return null;
+    }
+
+    /**
+     * 上架最近3天秒杀餐品
+     */
+    @Override
+    public void uploadSeckillFoodLates3Days() {
+        R r = couponFeignService.getLates3DaySession();
+        if (r.getCode() == 0){
+            //上架
+            List<SeckillSessionWithFoods> data = r.getData(new TypeReference<List<SeckillSessionWithFoods>>() {
+            });
+            //1-缓存
+            saveSessionInfos(data);
+            //2-缓存活动的关联餐品信息
+            saveSessionFoodInfos(data);
+        }
+    }
+
+    /**
+     * 缓存活动关联餐品信息
+     * @param data
+     */
+    private void saveSessionFoodInfos(List<SeckillSessionWithFoods> data) {
+        if (data != null){
+            data.stream().forEach(s->{
+                BoundHashOperations<String, Object, Object> ops = redisTemplate.boundHashOps(FOODKILL_CACHE_PREFIX);
+                s.getRelationFoods().stream().forEach(seckillFoodVo -> {
+                    //缓存token
+                    String token = UUID.randomUUID().toString().replace("_", "");
+                    if (!ops.hasKey(seckillFoodVo.getPromotionSessionId().toString() + " _" + seckillFoodVo.getFoodId().toString())){
+                        //缓存为空 进行缓存
+                        SeckillFoodRedisTo redisTo = new SeckillFoodRedisTo();
+                        //1-基本信息封装
+                        R r = foodFeignService.info(seckillFoodVo.getFoodId());
+                        if (r.getCode() == 0){
+                            SetmealInfoVo infoVo = r.getData("setmeal", new TypeReference<SetmealInfoVo>() {
+                            });
+                            redisTo.setFoodInfo(infoVo);
+                        }
+
+                        //2-秒杀信息
+                        BeanUtils.copyProperties(seckillFoodVo,redisTo);
+
+                        //3-设置当前餐品的秒杀时间信息
+                        redisTo.setStartTime(s.getStartTime().getTime());
+                        redisTo.setEndTime(s.getEndTime().getTime());
+
+                        //4-随机码
+                        redisTo.setRandomCode(token);
+
+                        String jsonValues = JSON.toJSONString(redisTo);
+                        ops.put(seckillFoodVo.getPromotionSessionId().toString() + "_" + seckillFoodVo.getFoodId().toString(),jsonValues);
+
+                        //5-使用库存作为分布式的信号量--限流
+                        RSemaphore semaphore = redissonClient.getSemaphore(FOOD_STOCK_SEMAPHQRE + token);
+                        //餐品可以秒杀的数量作为信号量
+                        semaphore.trySetPermits(seckillFoodVo.getSeckillCount());
+                    }
+                });
+            });
+        }
+    }
+
+    /**
+     * 缓存信息
+     * @param data
+     */
+    private void saveSessionInfos(List<SeckillSessionWithFoods> data) {
+        if (data != null){
+            data.stream().forEach( s ->{
+                long startTime = s.getStartTime().getTime();
+                long endTime = s.getEndTime().getTime();
+                String key = SESSION_CACHE_PREFIX + startTime + "_" + endTime;
+                //缓存活动信息 若已经缓存这跳过 若未缓存则缓存到redis
+                Boolean hasKey = redisTemplate.hasKey(key);
+                if (!hasKey){
+                    List<String> collect = s.getRelationFoods().stream().map(item ->
+                            item.getPromotionSessionId() + "_" + item.getFoodId().toString()
+                    ).collect(Collectors.toList());
+                    redisTemplate.opsForList().leftPushAll(key,collect);
+                }
+            });
+        }
     }
 }

@@ -1,8 +1,10 @@
 package com.atghy.foodmall.order.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.atghy.foodmall.order.entity.OrderInfoEntity;
 import com.atghy.foodmall.order.vo.FareInfoVo;
 import com.atghy.foodmall.order.vo.OrderConfirmVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -29,6 +31,31 @@ import com.atghy.foodmall.common.utils.R;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+
+    @RequestMapping("/back/takeoutArrive/{orderSn}/{takeSn}")
+    public R takeoutArrive(@PathVariable("orderSn")String orderSn,@PathVariable("takeSn")String takeSn){
+        boolean b = orderService.takeoutArrive(orderSn,takeSn);
+        if (b){
+            return R.ok();
+        }else {
+            return R.error();
+        }
+    }
+
+    /**
+     * 更新订单为配送状态
+     * @param orderSn
+     * @return
+     */
+    @RequestMapping("/back/takeoutOrder/{orderSn}/{takeoutSn}/{healthId}")
+    public R takeoutOrder(@PathVariable("orderSn") String orderSn,@PathVariable("takeoutSn") String takeoutSn,@PathVariable("healthId") Long healthId){
+        Boolean b = orderService.takeoutOrder(orderSn,takeoutSn,healthId);
+        if (b){
+            return R.ok();
+        }else {
+            return R.error();
+        }
+    }
 
     @PostMapping("/listWithItem")
     public R listWithItem(@RequestBody Map<String,Object> params){

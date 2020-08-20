@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.atghy.foodmall.common.utils.PageUtils;
 import com.atghy.foodmall.order.entity.OrderInfoEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,5 +18,7 @@ import java.util.Map;
 public interface OrderInfoService extends IService<OrderInfoEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    List<OrderInfoEntity> getInfo(String orderSn);
 }
 

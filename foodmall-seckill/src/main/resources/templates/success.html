@@ -3,13 +3,13 @@
 <head>
     <meta charset="utf-8"/>
     <title></title>
-    <script type="text/javascript" src="http://cart.foodmall.com/static/cart/js/jquery-3.1.1.min.js"></script>
-    <script type="text/javascript" src="http://cart.foodmall.com/static/cart/bootstrap/js/bootstrap.js"></script>
-    <script type="text/javascript" src="http://cart.foodmall.com/static/cart/js/swiper.min.js"></script>
-    <script src="http://cart.foodmall.com/static/cart/js/swiper.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="http://cart.foodmall.com/static/cart/css/swiper.min.css"/>
-    <link rel="stylesheet" type="text/css" href="http://cart.foodmall.com/static/cart/bootstrap/css/bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="http://cart.foodmall.com/static/cart/css/success.css"/>
+    <script type="text/javascript" src="http://cart.foodmall.com/foodmall/static/cart/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="http://cart.foodmall.com/foodmall/static/cart/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="http://cart.foodmall.com/foodmall/static/cart/js/swiper.min.js"></script>
+    <script src="http://cart.foodmall.com/foodmall/static/cart/js/swiper.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://cart.foodmall.com/foodmall/static/cart/css/swiper.min.css"/>
+    <link rel="stylesheet" type="text/css" href="http://cart.foodmall.com/foodmall/static/cart/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="http://cart.foodmall.com/foodmall/static/cart/css/success.css"/>
 
 </head>
 
@@ -26,7 +26,7 @@
 
         <ul class="hd_wrap_right">
             <li>
-                <a th:if="${session.loginUser==null}" href="http://cart.foodmall.comhttp://auth.foodmall.com/login.html"
+                <a th:if="${session.loginUser==null}" href="http://auth.foodmall.com/login.html"
                    class="li_2">请登录</a>
                 <a th:if="${session.loginUser!=null}" class="li_2" style="width: 100px">你好,[[${session.loginUser==null?'':session.loginUser.nickname}]]</a>
             </li>
@@ -37,7 +37,7 @@
             <li class="spacer"></li>
 
             <li>
-                <a href="http://cart.foodmall.com/static/cart//javascript:;">我的订单</a>
+                <a href="http://cart.foodmall.com/foodmall/static/cart//javascript:;">我的订单</a>
             </li>
 
 
@@ -52,16 +52,13 @@
         <div class="nav_top">
             <div class="nav_top_one">
                 <a href="http://cart.foodmall.comhttp://foodmall.com"><img
-                        src="http://cart.foodmall.com/static/cart/img/logo1.jpg"
+                        src="http://cart.foodmall.com/foodmall/static/cart/img/logo1.jpg"
                         style="height: 60px;width:180px;"/></a>
             </div>
             <div class="nav_top_two"><input type="text"/>
                 <button>搜索</button>
             </div>
-
-
         </div>
-
     </div>
 </div>
 
@@ -83,8 +80,9 @@
             </div>
         </div>
     </div>
+
 </div>
 </body>
-<script type="text/javascript" src="http://cart.foodmall.com/static/cart/js/success.js"></script>
+<script type="text/javascript" src="http://cart.foodmall.com/foodmall/static/cart/js/success.js"></script>
 
 </html>

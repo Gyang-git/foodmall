@@ -1,6 +1,7 @@
 package com.atghy.foodmall.takeout.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -27,6 +28,11 @@ public class VehicleController {
     @Autowired
     private VehicleService vehicleService;
 
+    @GetMapping("/back/getUnUseVehicle")
+    public R getUnUseVehicle(){
+        List<VehicleEntity> entities = vehicleService.getUnUseVehicle();
+        return R.ok().put("vehicles",entities);
+    }
 
     //维修
     @PostMapping("/maintainVehicle")

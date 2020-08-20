@@ -2,6 +2,7 @@ package com.atghy.foodmall.coupon.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
@@ -50,6 +51,7 @@ public class SeckillSessionEntity implements Serializable {
 	/**
 	 * 
 	 */
+	@TableLogic
 	private Integer status;
 
 	/**

@@ -39,7 +39,7 @@ mybatis-plus:
       id-type: auto
 
 server:
-  port: 20000
+  port: 18000
   #  1-配置全局的逻辑删除规则
   #  2-配置逻辑删除的组件Bean---（MybatisPlus3.0以上无需配置）V
   #  3-给Bean加上逻辑删除注解@TableLogic

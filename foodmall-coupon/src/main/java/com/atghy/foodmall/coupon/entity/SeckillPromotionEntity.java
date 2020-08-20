@@ -1,6 +1,7 @@
 package com.atghy.foodmall.coupon.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
@@ -47,6 +48,7 @@ public class SeckillPromotionEntity implements Serializable {
 	/**
 	 * 创建人
 	 */
+	@TableLogic
 	private Integer status;
 
 }

@@ -33,6 +33,8 @@ public enum BizCodeEnume {
     PHONE_EXIST_EXCEPTION(15002,"手机号已存在"),
     MANAGER_PERMIT_LACK_EXCEPTION(15004,"店面负责人证件缺失"),
     NO_STOCK_EXCEPTION(11000,"餐品售罄"),
+    WORKER_HEALTH_SIGN_ERROR(15005,"员工健康登记失败"),
+    ORDER_TAKEOUT_SAVE_ERROR(12001,"配送信息保存失败"),
     LOGINACCT_PASSWORD_INNAILD_EXCEPTION(15003,"账号密码错误");
 
     private int code;

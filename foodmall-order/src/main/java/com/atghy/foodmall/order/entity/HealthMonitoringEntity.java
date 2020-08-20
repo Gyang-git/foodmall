@@ -1,9 +1,11 @@
 package com.atghy.foodmall.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import lombok.Data;
 
@@ -31,11 +33,11 @@ public class HealthMonitoringEntity implements Serializable {
 	/**
 	 * 厨师体温
 	 */
-	private Long chefTem;
+	private BigDecimal chefTem;
 	/**
 	 * 厨师健康情况 0->健康;1->感冒;2->咳嗽;3->发烧;
 	 */
-	private Integer chefHeal;
+	private String chefHeal;
 	/**
 	 * 包装员id
 	 */
@@ -43,11 +45,11 @@ public class HealthMonitoringEntity implements Serializable {
 	/**
 	 * 包装员体温
 	 */
-	private Long packerTem;
+	private BigDecimal packerTem;
 	/**
 	 * 包装员健康情况
 	 */
-	private Integer packerHeal;
+	private String packerHeal;
 	/**
 	 * 配送员id
 	 */
@@ -55,11 +57,11 @@ public class HealthMonitoringEntity implements Serializable {
 	/**
 	 * 配送员体温
 	 */
-	private Long takemanTem;
+	private BigDecimal takemanTem;
 	/**
 	 * 配送员健康情况
 	 */
-	private Integer takemanHeal;
+	private String takemanHeal;
 	/**
 	 * 上报时间
 	 */
@@ -67,6 +69,7 @@ public class HealthMonitoringEntity implements Serializable {
 	/**
 	 * 启用状态
 	 */
+	@TableLogic
 	private Integer status;
 
 }

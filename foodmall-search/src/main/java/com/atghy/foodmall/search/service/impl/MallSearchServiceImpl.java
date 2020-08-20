@@ -176,12 +176,19 @@ public class MallSearchServiceImpl implements MallSearchService {
             }
             boolQuery.filter(rangeQuery);
         }
+
         //分类单品
         if (param.getCategoryName() != null){
             BoolQueryBuilder nestedboolQuery = QueryBuilders.boolQuery();
             nestedboolQuery.must(QueryBuilders.termQuery("nature.categoryName",param.getCategoryName()));
             NestedQueryBuilder nestedQuery = QueryBuilders.nestedQuery("nature", nestedboolQuery, ScoreMode.None);
             boolQuery.filter(nestedQuery);
+        }
+        //店面聚合
+        if (param.getRestaurantName() != null){
+            BoolQueryBuilder nestedboolQuery = QueryBuilders.boolQuery();
+            nestedboolQuery.must(QueryBuilders.termQuery("restaurantName",param.getRestaurantName()));
+            boolQuery.filter(nestedboolQuery);
         }
         //构建完成所有query
         sourceBuilder.query(boolQuery);

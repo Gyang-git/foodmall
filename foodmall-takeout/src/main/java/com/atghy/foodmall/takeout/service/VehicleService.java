@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.atghy.foodmall.common.utils.PageUtils;
 import com.atghy.foodmall.takeout.entity.VehicleEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,6 +19,8 @@ public interface VehicleService extends IService<VehicleEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     void maintainVehicle(Long id);
+
+    List<VehicleEntity> getUnUseVehicle();
 
 }
 

@@ -26,4 +26,10 @@ public class HealthMonitoringServiceImpl extends ServiceImpl<HealthMonitoringDao
         return new PageUtils(page);
     }
 
+    @Override
+    public Long saveHealthMonitor(HealthMonitoringEntity healthMonitoringEntity) {
+        int insert = baseMapper.insert(healthMonitoringEntity);
+        return healthMonitoringEntity.getId();
+    }
+
 }

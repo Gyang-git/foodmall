@@ -15,7 +15,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class FoodmallWebConfig implements WebMvcConfigurer {
     //添加拦截器
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new CartInterpector()).addPathPatterns("/**");

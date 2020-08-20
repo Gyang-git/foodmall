@@ -71,7 +71,7 @@ public class SeckillSessionServiceImpl extends ServiceImpl<SeckillSessionDao, Se
         LocalDate localDate = now.plusDays(2);
         LocalDateTime endTime = LocalDateTime.of(localDate, LocalTime.MAX);
         String format = endTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        return  format;
+        return format;
     }
 
     private String startTime() {
@@ -79,6 +79,6 @@ public class SeckillSessionServiceImpl extends ServiceImpl<SeckillSessionDao, Se
         LocalTime min = LocalTime.MIN;
         LocalDateTime startTime = LocalDateTime.of(now, min);
         String format = startTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        return  format;
+        return format;
     }
 }

@@ -18,6 +18,6 @@ public class MemberWebConfigurer implements WebMvcConfigurer {
     //登录拦截器注册实现
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginUserInterceptor).addPathPatterns("/**").excludePathPatterns("/error").excludePathPatterns("/listWithItem");
+        registry.addInterceptor(loginUserInterceptor).addPathPatterns("/**").excludePathPatterns("/error").excludePathPatterns("/**/back/**");
     }
 }

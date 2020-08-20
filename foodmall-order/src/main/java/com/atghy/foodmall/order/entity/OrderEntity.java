@@ -38,7 +38,7 @@ public class OrderEntity implements Serializable {
 	/**
 	 * 派送编号 外联外卖派送信息
 	 */
-	private Long takeoutId;
+	private String takeoutId;
 	/**
 	 * 健康监控id
 	 */

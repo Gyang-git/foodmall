@@ -3,6 +3,7 @@ package com.atghy.foodmall.cart.controller;
 import com.atghy.foodmall.cart.service.CartService;
 import com.atghy.foodmall.cart.vo.Cart;
 import com.atghy.foodmall.cart.vo.CartItem;
+import com.atghy.foodmall.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContext;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -23,6 +27,43 @@ import java.util.List;
 public class CartController {
     @Autowired
     CartService cartService;
+
+    /**
+     * 更改数量
+     * @param foodId
+     * @param num
+     * @return
+     */
+    @GetMapping("countItem")
+    public String countItem(@RequestParam("foodId") Long foodId,
+                            @RequestParam("num") Integer num){
+        cartService.changeItemCount(foodId,num);
+        return "redirect:http://cart.foodmall.com/cart.html";
+    }
+
+    /**
+     * 删除单项
+     * @param foodId
+     * @return
+     */
+    @GetMapping("/deleteItem")
+    public String deleteItem(@RequestParam("foodId") Long foodId){
+        cartService.deleteItem(foodId);
+        return "redirect:http://cart.foodmall.com/cart.html";
+    }
+
+    /**
+     * 购物车选中/取消
+     * @param foodId
+     * @param check
+     * @return
+     */
+    @GetMapping("/checkItem")
+    public String checkItem(@RequestParam("foodId") Long foodId,@RequestParam("check") Integer check){
+        cartService.checkItem(foodId,check);
+        //重定向返回
+        return "redirect:http://cart.foodmall.com/cart.html";
+    }
 
     @GetMapping("/cart.html")
     public String cartListPage(Model model){

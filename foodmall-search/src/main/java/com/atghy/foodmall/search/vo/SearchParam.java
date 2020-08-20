@@ -18,6 +18,8 @@ public class SearchParam {
     private Long isSingle;
     //检索分类名
     private String categoryName;
+    //检索店面名
+    private String restaurantName;
     //排序条件
     private String sort;
     //单品id

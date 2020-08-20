@@ -1,6 +1,7 @@
 package com.atghy.foodmall.coupon.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.math.BigDecimal;
@@ -56,6 +57,7 @@ public class SeckillFoodRelationEntity implements Serializable {
 	/**
 	 * 
 	 */
+	@TableLogic
 	private Integer status;
 
 }

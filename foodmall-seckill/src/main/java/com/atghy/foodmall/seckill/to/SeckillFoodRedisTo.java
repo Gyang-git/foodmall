@@ -1,6 +1,6 @@
 package com.atghy.foodmall.seckill.to;
 
-import com.atghy.foodmall.seckill.vo.FoodInfo;
+import com.atghy.foodmall.seckill.vo.SetmealInfoVo;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -44,7 +44,7 @@ public class SeckillFoodRedisTo {
     private Integer seckillSort;
 
     //sku的详细信息
-    private FoodInfo foodInfo;
+    private SetmealInfoVo foodInfo;
 
     //当前商品秒杀的开始时间
     private Long startTime;

@@ -45,4 +45,12 @@ public class VehicleServiceImpl extends ServiceImpl<VehicleDao, VehicleEntity> i
         System.out.println(new Date());
     }
 
+    @Override
+    public List<VehicleEntity> getUnUseVehicle() {
+        QueryWrapper<VehicleEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("use_status",0);
+        List<VehicleEntity> entities = baseMapper.selectList(queryWrapper);
+        return entities;
+    }
+
 }

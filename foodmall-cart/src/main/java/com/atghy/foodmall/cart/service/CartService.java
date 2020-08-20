@@ -20,4 +20,10 @@ public interface CartService {
 
     List<CartItem> getUserCartItems();
 
+    void checkItem(Long foodId, Integer check);
+
+    void deleteItem(Long foodId);
+
+    void changeItemCount(Long foodId, Integer num);
+
 }

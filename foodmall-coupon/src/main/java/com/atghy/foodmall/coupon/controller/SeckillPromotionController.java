@@ -38,7 +38,6 @@ public class SeckillPromotionController {
     //@RequiresPermissions("coupon:seckillpromotion:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = seckillPromotionService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 
@@ -50,7 +49,6 @@ public class SeckillPromotionController {
     //@RequiresPermissions("coupon:seckillpromotion:info")
     public R info(@PathVariable("id") Long id){
 		SeckillPromotionEntity seckillPromotion = seckillPromotionService.getById(id);
-
         return R.ok().put("seckillPromotion", seckillPromotion);
     }
 
@@ -61,7 +59,6 @@ public class SeckillPromotionController {
     //@RequiresPermissions("coupon:seckillpromotion:save")
     public R save(@RequestBody SeckillPromotionEntity seckillPromotion){
 		seckillPromotionService.save(seckillPromotion);
-
         return R.ok();
     }
 
@@ -72,7 +69,6 @@ public class SeckillPromotionController {
     //@RequiresPermissions("coupon:seckillpromotion:update")
     public R update(@RequestBody SeckillPromotionEntity seckillPromotion){
 		seckillPromotionService.updateById(seckillPromotion);
-
         return R.ok();
     }
 
@@ -83,8 +79,6 @@ public class SeckillPromotionController {
     //@RequiresPermissions("coupon:seckillpromotion:delete")
     public R delete(@RequestBody Long[] ids){
 		seckillPromotionService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
-
 }

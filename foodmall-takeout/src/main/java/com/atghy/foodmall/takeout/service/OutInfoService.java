@@ -1,9 +1,11 @@
 package com.atghy.foodmall.takeout.service;
 
+import com.atghy.foodmall.takeout.vo.OrderTakeoutVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.atghy.foodmall.common.utils.PageUtils;
 import com.atghy.foodmall.takeout.entity.OutInfoEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +18,10 @@ import java.util.Map;
 public interface OutInfoService extends IService<OutInfoEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    Boolean saveTakeout(OrderTakeoutVo orderTakeoutVo);
+
+    Boolean takeoutArrive(String orderSn);
+
 }
 

@@ -16,5 +16,7 @@ import java.util.Map;
 public interface HealthMonitoringService extends IService<HealthMonitoringEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    Long saveHealthMonitor(HealthMonitoringEntity healthMonitoringEntity);
 }
 

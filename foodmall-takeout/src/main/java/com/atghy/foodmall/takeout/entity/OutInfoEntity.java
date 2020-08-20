@@ -27,7 +27,9 @@ public class OutInfoEntity implements Serializable {
 	/**
 	 * 派送编号
 	 */
-	private Long orderSn;
+	private String orderSn;
+
+	private String takeSn;
 	/**
 	 * 开始派送时间
 	 */

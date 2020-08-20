@@ -11,6 +11,7 @@ import com.atghy.foodmall.common.utils.R;
 import com.atghy.foodmall.common.vo.CustomerResponseVo;
 import com.atghy.foodmall.common.vo.singleVo;
 import com.atghy.foodmall.order.constant.PayWayEnumConstant;
+import com.atghy.foodmall.order.entity.OrderInfoEntity;
 import com.atghy.foodmall.order.entity.OrderItemEntity;
 import com.atghy.foodmall.order.entity.PaymentInfoEntity;
 import com.atghy.foodmall.order.feign.CartFeignService;
@@ -18,6 +19,7 @@ import com.atghy.foodmall.order.feign.CouponFeignService;
 import com.atghy.foodmall.order.feign.FoodFeignService;
 import com.atghy.foodmall.order.feign.TakeoutFeignService;
 import com.atghy.foodmall.order.interceptor.LoginUserInterceptor;
+import com.atghy.foodmall.order.service.OrderInfoService;
 import com.atghy.foodmall.order.service.OrderItemService;
 import com.atghy.foodmall.order.service.PaymentInfoService;
 import com.atghy.foodmall.order.to.OrderCreateTo;
@@ -63,6 +65,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     private final BigDecimal SINGLE_ORDER_AMOUNT = new BigDecimal("3.00");
 
     private final BigDecimal SINGLE_SUCCESS_SCORE = new BigDecimal("5.80");
+
+    @Autowired
+    OrderInfoService orderInfoService;
 
     @Autowired
     CartFeignService cartFeignService;
@@ -331,6 +336,57 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         orderItemEntity.setName(singleVo.getName());
         orderItemEntity.setStatus(0);
         orderItemService.save(orderItemEntity);
+    }
+
+    @Override
+    @Transactional
+    public Boolean takeoutOrder(String orderSn, String takeoutSn, Long healthId) {
+        //更新订单状态
+        OrderEntity orderEntity = new OrderEntity();
+        QueryWrapper<OrderEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("order_sn",orderSn);
+        orderEntity.setTakeoutId(takeoutSn);
+        orderEntity.setHealthId(healthId);
+        orderEntity.setOrderStatus(OrderStatusEnumConstant.ORDER_DELIVING.getCode());
+        int i = baseMapper.update(orderEntity, queryWrapper);
+        if (i == 1){
+            //保存订单详情
+            OrderInfoEntity infoEntity = new OrderInfoEntity();
+            infoEntity.setOrderSn(orderSn);
+            infoEntity.setTakeSn(takeoutSn);
+            infoEntity.setAddress("校园外卖-配送处");
+            infoEntity.setTime(new Date());
+            infoEntity.setInfo("餐饮防疫检测完毕 已分配配送员开始派送! 预计15~30分钟配送到位");
+            infoEntity.setStatus(0);
+            orderInfoService.save(infoEntity);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean takeoutArrive(String orderSn, String takeSn) {
+        //更新订单详情信息
+        OrderInfoEntity orderInfoEntity = new OrderInfoEntity();
+        orderInfoEntity.setOrderSn(orderSn);
+        orderInfoEntity.setTakeSn(takeSn);
+        orderInfoEntity.setTime(new Date());
+        orderInfoEntity.setAddress("目的地");
+        orderInfoEntity.setInfo("餐品已经送达目的地 系统自动签收 尽快完善评价售后噢~");
+        orderInfoEntity.setStatus(0);
+        QueryWrapper<OrderEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("order_sn",orderSn);
+        orderInfoService.save(orderInfoEntity);
+
+        //更新订单状态
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setOrderStatus(OrderStatusEnumConstant.ORDER_WAIT_FEEDBACK.getCode());
+        QueryWrapper<OrderEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("order_sn",orderSn);
+        baseMapper.update(orderEntity,wrapper);
+        return true;
     }
 
     private void saveOrder(OrderCreateTo order) {

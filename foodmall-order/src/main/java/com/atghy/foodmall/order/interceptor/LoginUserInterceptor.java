@@ -33,9 +33,8 @@ public class LoginUserInterceptor implements HandlerInterceptor {
         boolean statusMatch = antPathMatcher.match("/order/order/status/**", uri);//根据订单号查询订单
         boolean payedMatch = antPathMatcher.match("/payed/notify", uri);//支付宝异步回调
         boolean queryPayMatch = antPathMatcher.match("/queryPayStatus", uri); //支付宝查询支付状态接口
-        boolean backListMatch = antPathMatcher.match("/order/order/back/**",uri);//订单后台接口
-        boolean orderItemMatch = antPathMatcher.match("/order/orderitem/back/**",uri);//订单项后台接口
-        if(statusMatch || payedMatch||queryPayMatch || backListMatch || orderItemMatch){
+        boolean backMatch = antPathMatcher.match("/**/back/**",uri);//匹配所有后台接口
+        if(statusMatch || payedMatch||queryPayMatch || backMatch){
             return true;
         }
 

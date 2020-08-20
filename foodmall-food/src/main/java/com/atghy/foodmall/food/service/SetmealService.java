@@ -1,5 +1,6 @@
 package com.atghy.foodmall.food.service;
 
+import com.atghy.foodmall.food.vo.SetmealItemVo;
 import com.atghy.foodmall.food.vo.SetmealVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.atghy.foodmall.common.utils.PageUtils;
@@ -21,5 +22,7 @@ public interface SetmealService extends IService<SetmealEntity> {
     void addSetmeal(SetmealVo setmealVo);
 
     Boolean upSetmeal(Long id);
+
+    SetmealItemVo setmealItem(Long setmealId);
 }
 

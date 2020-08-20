@@ -11,7 +11,7 @@ spring:
   application:
     name: foodmall-coupon
   jackson:
-    date-format: yyyy-MM-dd HH:mwm:ss
+    date-format: yyyy-MM-dd HH:mm:ss
   thymeleaf:
     cache: false
 mybatis-plus:

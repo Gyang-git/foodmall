@@ -16,4 +16,6 @@ public interface SeckillService {
     SeckillFoodRedisTo getFoodSeckillInfo(Long foodId);
 
     String kill(String killId, String key, Integer num);
+
+    void uploadSeckillFoodLates3Days();
 }

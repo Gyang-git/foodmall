@@ -12,6 +12,7 @@ import com.atghy.foodmall.food.service.RestaurantService;
 import com.atghy.foodmall.food.service.SingleService;
 import com.atghy.foodmall.food.service.SingleSetmealService;
 import com.atghy.foodmall.food.vo.ManagerVo;
+import com.atghy.foodmall.food.vo.SetmealItemVo;
 import com.atghy.foodmall.food.vo.SetmealVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,5 +134,14 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealDao, SetmealEntity> i
             return false;
         }
         return true;
+    }
+
+    @Override
+    public SetmealItemVo setmealItem(Long setmealId) {
+        SetmealItemVo setmealItem = new SetmealItemVo();
+        //1-基本信息
+        SetmealEntity setmealEntity = this.baseMapper.selectById(setmealId);
+        setmealItem.setSingle(setmealEntity);
+        return setmealItem;
     }
 }

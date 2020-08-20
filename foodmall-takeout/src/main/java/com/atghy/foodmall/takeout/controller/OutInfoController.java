@@ -1,15 +1,14 @@
 package com.atghy.foodmall.takeout.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
+import com.atghy.foodmall.common.exception.BizCodeEnume;
+import com.atghy.foodmall.takeout.vo.OrderTakeoutVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.atghy.foodmall.takeout.entity.OutInfoEntity;
 import com.atghy.foodmall.takeout.service.OutInfoService;
@@ -30,6 +29,26 @@ import com.atghy.foodmall.common.utils.R;
 public class OutInfoController {
     @Autowired
     private OutInfoService outInfoService;
+
+    @GetMapping("/back/takeoutArrive/{orderSn}")
+    public R takeoutArrive(@PathVariable("orderSn") String orderSn){
+        Boolean b = outInfoService.takeoutArrive(orderSn);
+        if(b){
+            return R.ok();
+        }else {
+            return R.error();
+        }
+    }
+
+    @RequestMapping("/back/saveTakeout")
+    public R saveTakeout(@RequestBody OrderTakeoutVo orderTakeoutVo){
+        Boolean b = outInfoService.saveTakeout(orderTakeoutVo);
+        if (b){
+            return R.ok();
+        }else{
+            return R.error(BizCodeEnume.ORDER_TAKEOUT_SAVE_ERROR.getCode(),BizCodeEnume.ORDER_TAKEOUT_SAVE_ERROR.getMsg());
+        }
+    }
 
     /**
      * 列表

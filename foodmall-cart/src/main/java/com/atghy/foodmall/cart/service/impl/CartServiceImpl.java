@@ -86,6 +86,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartItem addToCart(Long skuId, Integer count,String name) {
         BoundHashOperations<String,Object,Object> cartOps = getCartOps();
+        //检测是否已有该餐品
         String res = (String) cartOps.get(skuId.toString());
         if (StringUtils.isEmpty(res)){
             //购物车无此商品
@@ -96,22 +97,14 @@ public class CartServiceImpl implements CartService {
             if (r.getCode() == 0){
                 SkuInfoVo skuInfoVo = r.getData("single", new TypeReference<SkuInfoVo>() {
                 });
-                cartItem.setCheck(true);
-                cartItem.setCount(count);
-                cartItem.setSingleId(skuId);
-                cartItem.setImgUrl(skuInfoVo.getImgUrl());
-                cartItem.setTitle(skuInfoVo.getTitle());
-                cartItem.setPrice(skuInfoVo.getPrice());
+                    cartItem.setCheck(true);
+                    cartItem.setCount(count);
+                    cartItem.setSingleId(skuId);
+                    cartItem.setImgUrl(skuInfoVo.getImgUrl());
+                    cartItem.setTitle(skuInfoVo.getTitle());
+                    cartItem.setPrice(skuInfoVo.getPrice());
             }else{
-                R setmealInfo = foodFeignService.setmealInfo(skuId);
-                SkuInfoVo setmeal = setmealInfo.getData("setmeal", new TypeReference<SkuInfoVo>() {
-                });
-                cartItem.setCheck(true);
-                cartItem.setCount(count);
-                cartItem.setSetmealId(skuId);
-                cartItem.setImgUrl(setmeal.getImgUrl());
-                cartItem.setTitle(setmeal.getTitle());
-                cartItem.setPrice(setmeal.getPrice());
+                return null;
             }
             //TODO 远程查询并封装特性及套餐组合信息
             //转为JSON
@@ -171,6 +164,31 @@ public class CartServiceImpl implements CartService {
             }).collect(Collectors.toList());
             return collect;
         }
+    }
+
+    @Override
+    public void checkItem(Long foodId, Integer check) {
+        BoundHashOperations<String, Object, Object> cartOps = getCartOps();
+        CartItem cartItem = getCartItem(foodId);
+        cartItem.setCheck(check == 1 ?true:false);
+        String s = JSON.toJSONString(cartItem);
+        cartOps.put(foodId.toString(),s);
+    }
+
+    @Override
+    public void deleteItem(Long foodId) {
+        BoundHashOperations<String, Object, Object> cartOps = getCartOps();
+        cartOps.delete(foodId.toString());
+    }
+
+    @Override
+    public void changeItemCount(Long foodId, Integer num) {
+        //获取购物项-更新数量-上传
+        CartItem cartItem = getCartItem(foodId);
+        cartItem.setCount(num);
+        BoundHashOperations<String, Object, Object> cartOps = getCartOps();
+        String s = JSON.toJSONString(cartItem);
+        cartOps.put(foodId.toString(),s);
     }
 
     /**
